@@ -208,6 +208,9 @@ finger mike@ember
 # - get information about mike
 finger -q mike
 # refer to the textbook for a quick comparison of these three commands
+
+# last - displays information about the last logged-in users
+last -n 5
 ```
 
 * Communicate with other users
@@ -391,3 +394,4 @@ echo 'the erase character CONTROL-V CONTROL-U' | hexdump -C #
 
 * [Send and receive Gmail from the Linux command line](https://opensource.com/article/21/7/gmail-linux-terminal)
 * [Setting Your Erase, Kill, and Interrupt Characters](https://docstore.mik.ua/orelly/unix3/upt/ch05_08.htm)
+* [Linux last Command](https://www.baeldung.com/linux/last-command)
