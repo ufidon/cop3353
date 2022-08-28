@@ -138,3 +138,6 @@ passwd
 # change someone's password
 passwd username
 ```
+
+# References
+* [How to send jobs to background without stopping them?](https://serverfault.com/questions/41959/how-to-send-jobs-to-background-without-stopping-them)
