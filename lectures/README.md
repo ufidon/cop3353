@@ -4,7 +4,7 @@ This is an introductory course to Linux and Unix operating systems. The course w
 ## Table of contents
 We will follow textbook [A Practical Guide to Linux Commands, Editors, and Shell Programming, 4th](https://www.oreilly.com/library/view/a-practical-guide/9780134774626/).
 
-* Part 1: The Linux operating systems
+* Part 1: [The Linux operating systems](./part1/README.md)
 * Part 2: The editors
 * Part 3: The shells
 * Part 4: Programming tools
