@@ -385,8 +385,9 @@ tar -xvf myarchive.tar
 ```bash
 echo 'the erase character CONTROL-U' # we can't complete the right quote
 echo 'the erase character CONTROL-V CONTROL-U' | hexdump -C # 
-
+```
 
 ## References
+
 * [Send and receive Gmail from the Linux command line](https://opensource.com/article/21/7/gmail-linux-terminal)
 * [Setting Your Erase, Kill, and Interrupt Characters](https://docstore.mik.ua/orelly/unix3/upt/ch05_08.htm)
