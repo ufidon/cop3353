@@ -17,6 +17,7 @@
 ### setup a Linux environment
   * [Setup Ubuntu mate in VirtualBox](https://youtu.be/ZGJi20F2eqA)
   * Access ember.hpc.lab through [VPN](https://vpn.floridapoly.edu/) and [Putty](https://www.putty.org/)
+    * [How to setup VPN](https://floridapoly.edu/wp-content/uploads/Internet-Firewall-VPN-Upgrade.pdf)
   * [Google Colab](https://colab.research.google.com/)
   * [Alibaba Cloud](https://us.alibabacloud.com/), [Amazon AWS](https://aws.amazon.com/), [Baidu AI Cloud](https://login.bce.baidu.com/), [Microsoft Azure](https://azure.microsoft.com/)
 
