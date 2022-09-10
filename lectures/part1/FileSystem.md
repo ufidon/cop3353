@@ -294,5 +294,15 @@ chgrp -RP newgroup myfolder1 myfolder2
 ls -lR # check the result
 ```
 
+## Disk space
+```bash
+# df - Show information about the file system on which each FILE resides, or all file systems by default.
+df -h
+
+# du - Summarize disk usage of the set of FILEs, recursively for directories.
+du -h /tmp
+du -hs /tmp
+```
+
 ## References
 * [Introduction to Linux: A Hands on Guide](https://tldp.org/LDP/intro-linux/html/index.html)
