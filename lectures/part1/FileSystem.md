@@ -3,7 +3,7 @@
 
 * [Linux man pages](https://linux.die.net/man/)
 
-# Objectives
+# ToC
 * The hierarchical filesystem
   * directory and file
   * the working directory

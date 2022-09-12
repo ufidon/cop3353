@@ -3,7 +3,7 @@
 
 * [Linux man pages](https://linux.die.net/man/)
 
-## Objectives
+## ToC
 * User and system management
   * Display information about users and the system
   * Communicate with other users
