@@ -95,8 +95,40 @@ ls -ld /tmp
 mkdir /tmp/playground
 ```
 
+* [command line](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/command-line-syntax-key) composition: a line typed in a terminal ended with newline by pressing ENTER
+
+```bash
+# 1. simple commands: switch is also called option or flag, sw and arg are all called token
+# Syntax: command [sw1] [sw2] ... [swn] [arg1] [arg2] ... [argn]
+adduser --help
+# Usage
+du --help
+
+# pass variables to simple commands
+var1=value1 ... varn=valuen env
+
+# The shell does not require command name to appear first
+# redirections and their parameters are processed before the command
+>outputfile <inputfile cat 
+
+```mermaid
+graph TD;
+  A[Get first word<br>save as command name] --> B{newline};
+  B -->|N| C[Get more<br>from the command line];
+  C --> B;
+  B -->|Y| D{Program exists?};
+  D -->|Y| E[Execute program];
+  D -->|N| F[Show not found];
+  E --> H[Issue prompt];
+  F --> H;
+  H --> A;
+```
+# 2. pipelines
 
 
+# 3. compound commands or list
+
+```
 
 ### Git
 [Git](https://git-scm.com/)
