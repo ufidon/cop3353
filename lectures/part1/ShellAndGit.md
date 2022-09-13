@@ -111,6 +111,8 @@ var1=value1 ... varn=valuen env
 # redirections and their parameters are processed before the command
 >outputfile <inputfile cat 
 
+```
+
 ```mermaid
 graph TD;
   A[Get first word<br>save as command name] --> B{newline};
