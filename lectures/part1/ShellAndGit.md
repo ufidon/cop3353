@@ -282,7 +282,7 @@ echo cake\?
 ### Git
 [Git](https://git-scm.com/)
 
-* Git workflow
+#### Git workflow
 
 ```mermaid
 sequenceDiagram
@@ -299,9 +299,107 @@ sequenceDiagram
     R-->>W: git pull
 ```            
 
+#### Git basics
+* Create a [Github account](https://github.com/join).
+* Check git
+  ```bash
+  git --version
+  ```
+* Config user name and email
+  ```bash
+  git config --global user.name "your username"
+  git config --global user.email "your email"
+  # check the configuration
+  git config --global --list
+  ```
+* [Generate a SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+  ```bash
+  ssh-keygen -t ed25519 -C "your_email"
+  # save it in the default location
+  # protect it with a passphrase
+  ```
+* Adding your SSH key to the ssh-agent
+  ```bash
+  # Start the ssh-agent in the background.
+  eval "$(ssh-agent -s)"
+  # Add your SSH private key to the ssh-agent.
+  ssh-add ~/.ssh/id_ed25519
+  ```
+* [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+  ```bash
+  cat ~/.ssh/id_ed25519.pub
+  ```
+* [Testing your SSH connection](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection)
+  ```bash
+  ssh -T git@github.com
+  ```
+* [Create a new remote repository on GitHub](https://github.com/new)
+* Create a local repository
+  ```bash
+  mkdir project1
+  cd project1
+  cat > README.md # To create a README file for the repository
+  git init # Initiates an empty git repository
+  ```
+* Add files to the Staging Area for commit
+  ```bash
+  git add . # stage all new and modified files in the local repo for commit
+
+  git status # Lists all new or modified files to be committed
+  ```
+* Commit staged files to the local repo
+  ```bash
+  git commit -m "Setup project"
+
+  # the most recent commit
+  git reset HEAD~1
+  ```
+* Add a remote origin and push
+  ```bash
+  # set the new remote
+  git remote add origin git@github.com:yourgithubaccount/reponame.git
+  # git remote command lets you create, view, and delete connections to other repositories.
+  git remote -v # list connections
+
+  # pushes the changes in the local repository up to the remote repository 
+  git push -u origin main # push changes to origin
+  ```
+* View file modifications
+  ```bash
+  # # To show the files changes not yet staged
+  git diff
+  ```
+* Revert back to the last committed version
+  ```bash
+  # all files
+  git checkout .
+  # a specific file
+  git checkout -- thefile
+  git status
+  ```
+* View commit history
+  ```bash
+  git log
+  ```
+* The most frequently used commands
+  ```bash
+  git add .
+  git status
+  git commit -m'what is about this commit'
+  git push
+  ```
+* Collaborate with others
+  *  [add collaborator for the repository](https://help.github.com/articles/inviting-collaborators-to-a-personal-repository/)
+  *  [create a pull request](https://help.github.com/articles/creating-a-pull-request/)
+  ```bash
+  git fetch # fetch the contribution from collaborators
+  git merge contribution # merge the contribution into your 
+  ```
 
 ## References
 * [The Linux Command Line](http://linuxcommand.org/tlcl.php)
 * [Bash Shell Scripting](https://en.wikibooks.org/wiki/Bash_Shell_Scripting)
 * [A Visual Git Reference](https://marklodato.github.io/visual-git-guide/index-en.html)
+  * [gittutorial - A tutorial introduction to Git](https://git-scm.com/docs/gittutorial)
 * [Learn the Basics of Git in Under 10 Minutes](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/)
+* [5 steps to change GitHub default branch from master to main](https://stevenmortimer.com/5-steps-to-change-github-default-branch-from-master-to-main)
