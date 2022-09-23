@@ -5,7 +5,7 @@
 * [The emacs editor](https://www.gnu.org/software/emacs/)
 
 ## Popular vim commands 
-* [A Great Vim Cheat Sheet](http://vimsheet.com/)
+* [Vim Commands Cheat Sheet](https://phoenixnap.com/kb/vim-commands-cheat-sheet)
 * [vi basic commands](https://bootlin.com/doc/legacy/command-line/vi_memento.pdf)
 
 ## Popular emacs commands
@@ -18,4 +18,10 @@ scp  [options] SourceFileName UserName@TargetHost:TargetPath
 ```
 
 ## References
+* [vim modes](https://en.wikibooks.org/wiki/Learning_the_vi_Editor/Vim/Modes)
+* [Learning the vi Editor](https://en.wikibooks.org/wiki/Learning_the_vi_Editor)
+  * [Vim Cheat Sheet](https://devhints.io/vim)
+  * [Vim Cheat Sheet](https://vim.rtorr.com/)
+  * [Vim Cheat Sheet](https://www.linuxtrainingacademy.com/vim-cheat-sheet/)
 * [12 SCP Command Examples To Securely Transfer Files In Linux](https://www.softwaretestinghelp.com/scp-command-tutorial/)
+* [Poetry foundation](https://www.poetryfoundation.org/)
