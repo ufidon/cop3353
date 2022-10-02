@@ -1,6 +1,6 @@
 # Part 4: Programming tools
-*chapter 10-15*
+*chapter 14-15*
 
-* [Bash programming (chapter 10)]()
-* [Makefile and the sed editor]()
-* [gawk (chapter 14)]()
+* [Makefile](https://www.gnu.org/software/make/manual/make.html)
+* [gawk (chapter 14)](https://www.gnu.org/software/gawk/manual/gawk.html)
+* [The sed editor(chapter 15)](https://www.gnu.org/software/sed/manual/sed.html)
