@@ -7,7 +7,12 @@
 
 
 ## Bash programming basics
-A [shell](https://en.wikipedia.org/wiki/Shell_(computing)) is a computer program that exposes an operating system's services to a human user or other programs. Most of them try to be [Portable Operating System Interface(POSIX)](https://en.wikipedia.org/wiki/POSIX) compatible.
+A [shell](https://en.wikipedia.org/wiki/Shell_(computing)) is a computer program that exposes an operating system's services to a human user or other programs. Most of them try to be [Portable Operating System Interface(POSIX)](https://en.wikipedia.org/wiki/POSIX) compatible. [Unix shell](https://en.wikipedia.org/wiki/Unix_shell) has a long history.
+
+![A hypothetical shell](./images/shell.png)
+
+* Windows 10/11 has [a subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install), which supports many Linux distributions (such as Ubuntu, OpenSUSE, Kali, Debian, Arch Linux, and more)
+
 
 ### Shell basics
 
@@ -23,7 +28,8 @@ ls -l /usr/bin/ | grep sh # are the output all shells
 ls -l $(which sh bash dash)
 
 # What is the current shell
-# Login shell - the first shell that displays a prompt when you log in on a system from the system console or a virtual console remotely using ssh
+# Login shell - the first shell that displays a prompt when you 
+# log in on a system from the system console or a virtual console remotely using ssh
 # Interactive nonlogin shell - the shell opened from an emulator terminal in GUI
 echo $0 # output -bash is login shell, while bash is interactive shell
 
@@ -74,6 +80,13 @@ man [
 help [[
 [[ "good morning" =~ oo ]] && echo match
 
+# \ - line continuation
+echo this is a very long \
+command line
+
+# . or source command - Read  and execute commands (as well as scripts) 
+# from filename in the current shell environment
+. ~/.bashrc # make configuration effective immediately
 ```
 
 
@@ -94,13 +107,22 @@ vim myscript.sh
 date # show current date and time
 echo "Users currently logged in"
 who
+sleep 500
 # --------------
-# execute the script
+# execute the script in a subshell
 bash ./myscript.sh
 # or make it executable
 chmod +x myscript.sh
-./myscript.sh
+./myscript.sh # execute in subshell
+ps
 
+# exec - executes a Shell command without creating a new process. 
+# Instead, it replaces the currently open Shell operation.
+exec ./myscript.sh # don't run it
+
+# & - the shell executes the command in the background in a subshell
+./myscript.sh &
+ps
 ```
 
 * Three useful bash options
@@ -134,6 +156,7 @@ env
 # several important keyword variables
 echo $USER # you
 echo $HOME # your home directory
+echo ~ # your home directory
 echo $PATH # list of folders containing programs the shell looks for
 
 # let shell search programs in ~/bin
@@ -149,6 +172,9 @@ echo ${classes}
 # unset - remove a variable
 classes=
 echo $classes
+
+unset myvar
+echo $myvar
 
 # show all shell variables
 set
@@ -182,6 +208,14 @@ var2=newvalue
 declare -rx var3=value3
 declare +r var3 # can we remove attribute r?
 declare +x var3 # remove attribute x
+
+readonly var4=value4
+
+# Shell needs to restart to reset constants
+exec bash 
+# or
+exec bash –login
+echo $var4
 ```
 
 * pass variables and parameters to a script
@@ -194,12 +228,13 @@ var1=value1 var2=value2 varn=valuen ./myscript.sh
 # the code in myscript.sh
 #----------------------
 #!/usr/bin/bash
-echo "variables passed to me:"
+echo "the script name is $0"
+echo "$# parameters passed to me:"
 echo "var1=$var1 var2=$var2 varn=$varn"
 echo "parameters passed to me:"
 echo "param1=$1 param2=$2 paramn=$3 param10=${10}"
 echo "all parameters passed to me: $@"
-echo "all parameters passed to me: $#"
+echo "all parameters passed to me: $*"
 exit 10
 #----------------------
 
@@ -281,6 +316,7 @@ IFS=$oldifs # restore previous IFS
 ```
 
 ### [View and set system locales](https://www.tecmint.com/set-system-locales-in-linux/)
+
 
 ### [View and set time zone](https://linuxize.com/post/how-to-set-or-change-timezone-in-linux/)
 * [date command in bash](https://linuxhint.com/date-command-bash/)
