@@ -7,3 +7,13 @@
 
 
 ## Advanced bash programming
+
+
+
+
+## References
+* [Bash Shell Scripting](https://en.wikibooks.org/wiki/Bash_Shell_Scripting)
+  * [Advanced Bash-Scripting Guide](https://tldp.org/LDP/abs/html/)
+    * [on github](https://github.com/pmarinov/bash-scripting-guide)
+    * [in HTML](https://hangar118.sdf.org/p/bash-scripting-guide/index.html)
+* [The Linux Command Line](https://linuxcommand.org/)

@@ -298,6 +298,128 @@ cp ~/.bashrc ~/.bashrc.bk
 vim ~/.bashrc # find and change the suitable PS1
 ```
 
+* Adjust character attributes (color, font, etc.) and cursor position
+  * control through non-printing character sequences (instructions)
+  * two complex terminal subsystems: [termcap](https://en.wikipedia.org/wiki/Termcap) and [terminfo](https://en.wikipedia.org/wiki/Terminfo)
+  * Character color is controlled by sending the terminal emulator an **ANSI escape code** embedded in the stream of characters to be displayed
+  * non-printing characters are enclosed with the \[ and \] sequences
+  
+*Escape Sequences Used to Set Text Colors*
+
+| Sequence | Text Color | Sequence | Text Color |
+| --- | --- | --- | --- |
+| \033[0;30m | Black      | \033[1;30m | Dark gray    |
+| \033[0;31m | Red        | \033[1;31m | Light red    |
+| \033[0;32m | Green      | \033[1;32m | Light green  |
+| \033[0;33m | Brown      | \033[1;33m | Yellow       |
+| \033[0;34m | Blue       | \033[1;34m | Light blue   | 
+| \033[0;35m | Purple     | \033[1;35m | Light purple | 
+| \033[0;36m | Cyan       | \033[1;36m | Light cyan   | 
+| \033[0;37m | Light gray | \033[1;37m | White        | 
+
+```bash
+oldps1=$PS1
+# set all text color to red
+PS1="\[\033[0;31m\]<\u@\h \W>\$ "
+# set the prompt text color to red, then return to normal (attribute = 0), black text 
+PS1="\[\033[0;31m\]<\u@\h \W>\$\[\033[0m\] "
+PS1=$oldps1
+```
+
+*Escape Sequences Used to Set Background Color*
+
+| Sequence | Background Color | Sequence | Background Color |
+| --- | --- | --- | --- |
+| \033[0;40m | Black      | \033[0;44m | Blue       | 
+| \033[0;41m | Red        | \033[0;45m | Purple     | 
+| \033[0;42m | Green      | \033[0;46m | Cyan       | 
+| \033[0;43m | Brown      | \033[0;47m | Light gray | 
+
+```bash
+oldps1=$PS1
+# set prompt text color to white, background color to blue
+PS1="\[\033[0;37m\033[0;44m\]<\u@\h \W>\$\[\033[0m\] "
+PS1=$oldps1
+```
+
+* Moving the cursor is used to provide a information at a different location on the screen each time the prompt is drawn
+
+*Cursor Movement Escape Sequences*
+
+| Escape Code |   Action |
+| --- | --- |
+| \033[l;cH |     Move the cursor to line l and column c |
+| \033[nA   |     Move the cursor up n lines |
+| \033[nB   |     Move the cursor down n lines |
+| \033[nC   |     Move the cursor forward n characters |
+| \033[nD   |     Move the cursor backward n characters |
+| \033[2J   |     Clear the screen and move the cursor to the upper-left corner (line 0, column 0) |
+| \033[K    |     Clear from the cursor position to the end of the current line |
+| \033[s    |     Store the current cursor position |
+| \033[u    |     Recall the stored cursor position |
+
+```bash
+# find the terminal size in text mode
+WIDTH=$(tput cols) # tells you the number of columns
+HEIGHT=$(tput lines) # tells you the number of rows
+
+# construct a prompt that draws a red bar at the top of
+# the screen containing a clock (rendered in yellow text) 
+# each time the prompt is displayed
+PS1="\[\033[s\033[0;0H\033[0;41m\033[K\033[1;33m\t\033[0m\033[u\] <\u@\h \W>\$ "
+```
+
+* PS2-4 can be set similarly
+
+```bash
+# PS2 - prompts for more input
+oldps2=$PS2
+echo $oldps2
+echo hello \ # line continuation, type ENTER
+
+# change PS2
+PS2="continue ==>> "
+ls | # type ENTER, some symbols work as lin continuation
+
+# PS3 holds the menu prompt for the ‘select’ control structure  
+oldps3=$PS3
+echo $oldps3
+
+# select your action, CTRL+d to quit
+select a in [hvdcm]
+do
+  echo "Your action is $a"
+done
+
+PS3="Please select your action: "
+# then run the above select block again, what did you see?
+
+# PS4 - debugging prompt
+oldps4=$PS4
+echo $oldps4
+PS4="expanded command> "
+# run the script below
+#----------------------
+#!/bin/bash -x
+select a in [hvdcm]
+do
+  echo "Your action is $a"
+done
+#----------------------
+```
+
+* CDPATH - The search path for the cd command.  This is a colon-separated list of directories in which the shell looks for destination directories specified by the cd command.
+  * By default cd only searches the current working directory and its sub-directories
+  * The default value of CDPATH is empty
+
+```bash
+mkdir -p /tmp/$USER/homework/assignment{1..10}
+export CDPATH=$CDPATH:$HOME:/tmp/$USER/homework
+cd
+cd assignment2
+pwd # What is your current directory?
+
+```
 
 * IFS - separates input fields (word splitting)
   * It has the default value of SPACE-TAB-NEWLINE
@@ -315,10 +437,54 @@ cat $twofiles
 IFS=$oldifs # restore previous IFS
 ```
 
-### [View and set system locales](https://www.tecmint.com/set-system-locales-in-linux/)
 
+### [View and set system locales](https://www.tecmint.com/set-system-locales-in-linux/)
+The locale specifies the way locale-aware programs display data such currency, date and time, telephone numbers, and measurements. The value of one or more locale variables has format: xx_YY.CHARSET
+
+* xx - the [ISO-639 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+* YY - the [ISO-3166 country code](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)
+* CHARSET -  the name of the character set, also called the *character map or charmap*
+
+```bash
+# locale - display the current locales variables
+# Unless explicitly set, each of the LC_ variables 
+# derives its value from LANG
+locale
+locale -a # show all available locales
+locale -m # show all available character maps 
+
+# localectl - Query or change system locale and keyboard settings.
+localectl status
+
+# view more information about a locale variable
+locale -k LC_TIME
+
+#  some LC_ variables change displayed values
+LC_TIME=en_GB.UTF-8 date +%x # format to Great Britain standard
+LC_TIME=en_US.UTF-8 date +%x # format to US standard
+
+# lookup locale variables
+man locale
+
+```
+
+The [setlocale](https://man7.org/linux/man-pages/man3/setlocale.3.html) function is used to set or query the program's current locale. [Locale definition](https://gcc.gnu.org/onlinedocs/libstdc++/manual/localization.html) files are kept in the /usr/share/i18n/locales on Linux.
 
 ### [View and set time zone](https://linuxize.com/post/how-to-set-or-change-timezone-in-linux/)
+* The time is usually set by the user when the system is first installed
+* The [TZ variable](https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html) gives programs access to information about the [local time zone](https://community.intersystems.com/post/setting-tz-environment-variable-linux)
+
+
+```bash
+date # what is the local time zone?
+TZ=EST+5EDT date # use a new time zone: zone_name timeoffset
+
+# set TZ with continent/country
+TZ=Australia/Victoria date
+
+# tzselect - set the TZ variable
+tzselect
+```
 * [date command in bash](https://linuxhint.com/date-command-bash/)
 
 ### File descriptor and redirection
@@ -398,6 +564,8 @@ ls -yz 2>&1 >> command.log
   * [Advanced Bash-Scripting Guide](https://tldp.org/LDP/abs/html/)
     * [on github](https://github.com/pmarinov/bash-scripting-guide)
     * [in HTML](https://hangar118.sdf.org/p/bash-scripting-guide/index.html)
+* [The Linux Command Line](https://linuxcommand.org/)
+* [Terminfo and Termcap](https://tldp.org/HOWTO/Text-Terminal-HOWTO-16.html)
 * [How do file descriptors work?](https://stackoverflow.com/questions/7082001/how-do-file-descriptors-work)
   * [What's the range of file descriptors on 64-bit Linux?](https://stackoverflow.com/questions/8059616/whats-the-range-of-file-descriptors-on-64-bit-linux)
   * [List the Open File Descriptors in the Current Bash Session](https://www.baeldung.com/linux/list-open-file-descriptors)
