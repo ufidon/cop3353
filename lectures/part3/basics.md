@@ -322,7 +322,7 @@ oldps1=$PS1
 # set all text color to red
 PS1="\[\033[0;31m\]<\u@\h \W>\$ "
 # set the prompt text color to red, then return to normal (attribute = 0), black text 
-PS1="\[\033[0;31m\]<\u@\h \W>\$\[\033[0m\] "
+PS1="\[\033[0;31m\]<\u@\h \W>\$\[\033[0;30m\] "
 PS1=$oldps1
 ```
 
@@ -338,7 +338,7 @@ PS1=$oldps1
 ```bash
 oldps1=$PS1
 # set prompt text color to white, background color to blue
-PS1="\[\033[0;37m\033[0;44m\]<\u@\h \W>\$\[\033[0m\] "
+PS1="\[\033[0;37m\033[0;44m\]<\u@\h \W>\$\[\033[0;30m\] "
 PS1=$oldps1
 ```
 
@@ -386,9 +386,13 @@ oldps3=$PS3
 echo $oldps3
 
 # select your action, CTRL+d to quit
-select a in [hvdcm]
-do
-  echo "Your action is $a"
+select action in run sleep drive walk; do
+  case "$REPLY" in
+      1) echo "run" ; break;;
+      2) echo "sleep" ; break;;
+      3) echo "drive" ; break;;
+      4) echo "walk" ; break ;;
+  esac
 done
 
 PS3="Please select your action: "
@@ -401,9 +405,13 @@ PS4="expanded command> "
 # run the script below
 #----------------------
 #!/bin/bash -x
-select a in [hvdcm]
-do
-  echo "Your action is $a"
+select action in run sleep drive walk; do
+  case "$REPLY" in
+      1) echo "run" ; break;;
+      2) echo "sleep" ; break;;
+      3) echo "drive" ; break;;
+      4) echo "walk" ; break ;;
+  esac
 done
 #----------------------
 ```
