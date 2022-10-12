@@ -124,7 +124,7 @@ fi
 ```bash
 
 #!/bin/bash
-# script name: hardlinks
+# script name: lnks
 # Identify links to a file
 # Usage: lnks file [directory]
 
@@ -334,3 +334,4 @@ echo "Congratulation! You get it!"
     * [on github](https://github.com/pmarinov/bash-scripting-guide)
     * [in HTML](https://hangar118.sdf.org/p/bash-scripting-guide/index.html)
 * [The Linux Command Line](https://linuxcommand.org/)
+  * [Making menus with select](https://linuxize.com/post/bash-select/)
