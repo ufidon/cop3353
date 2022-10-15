@@ -10,8 +10,8 @@
 
 * control structures
   * conditions: arithmetic and logical expressions
-  * branching: if..then, case, select
-  * repetition: while, until, for..in, 
+  * branching: if..then, case
+  * repetition: while, until, for..in, select
     * break, continue
 * script organization
   * input and output
@@ -21,7 +21,7 @@
 
 
 ### control structures
-* branching: if..then, case, select
+* branching: if..then, case
 * conditions: arithmetic and logical expressions
 
 ```bash
@@ -58,8 +58,10 @@ else
     echo "$str1 is after $str2 in lexicographical order"    
 fi
 #--------------------
+```
 
 * example 2: check script command line arguments
+    *  [Usage by here document](https://www.baeldung.com/linux/heredoc-herestring)
 
 ```bash
 #--------------------
@@ -177,9 +179,35 @@ find "$directory" -xdev -inum $inode -print # –xdev (cross-device) argument
 # prevents find from searching directories on other filesystems
 ```
 
+* case: case WORD in [PATTERN [| PATTERN]...) COMMANDS ;;]... esac<br>
+    Execute commands based on pattern matching.
+
+```bash
+help case
+
+#---------------------------------------------------
+#!/bin/bash
+# script name: answer
+read -p "Enter Y or N: " yesorno
+case "$yesorno" in
+    Y|y|Yes|yes|YES)
+        echo "You answered yes"
+        ;;
+    N|n|No|no|NO)
+        echo "You answered no"
+        ;;
+    *)
+        echo "You did not answer"
+        ;;
+esac
+#---------------------------------------------------
+
+```
+
+
 ---
 
-* repetition: while, until, for..in, 
+* repetition: while, until, for..in, select
   * break, continue
 
 ```bash
@@ -218,11 +246,22 @@ for i in {1..10..2}; do # {start..stop..step}
     echo -n "$i "
 done
 echo
+
+for i in $(seq 1 2 10); do
+    echo -n "$i "
+done
+echo
+
+for (( i=0; i<=10; i+=2 )); do
+    echo -n "$i"
+done
+echo
 #--------------------
 
 # C-style for loop
 #--------------------
 #!/bin/bash
+# 0 < $RANDOM <32767
 # script name: forcstyle
 for ((i=1; i<=10; i++)); do
     echo -n "Rolling two dies #$i: "
@@ -246,17 +285,19 @@ echo
 
 # Print user's information
 #--------------------
+# script name: whos
 #!/bin/bash
 if [ $# -eq 0 ]; then
     echo "Usage: whos id..." 1>&2
     exit 1
 fi
-for id
+for id # implicitly uses "$@"
 do
     gawk -F: '{print $1, $5}' /etc/passwd |
     grep -i "$id"
 done
 #--------------------
+./whos userid1 userid2 userid3 # ...
 
 # while loop
 #  while COMMANDS; do COMMANDS; done
@@ -322,9 +363,122 @@ done
 echo "Congratulation! You get it!"
 
 #--------------------
+```
 
+* select: select NAME [in WORDS ... ;] do COMMANDS; done<br>
+    Select words from a list and execute commands.
+
+```bash
+help select
+
+#---------------------------------------------------
+#!/bin/bash
+# command menu
+#!/bin/bash
+PS3="Choose your weapons from the list: "
+select w in knife sword arrow bow spear gun cannon missile bomb QUIT
+do
+    if [ "$w" == "" ]; then
+        echo -e "You did not make your choice.\n"
+        continue
+    elif [ $w = QUIT ]; then
+        echo "Thanks for playing the game!"
+        break
+    fi
+echo "You put $w into your bag."
+echo -e "It is listed as number $REPLY.\n"
+done
+
+#---------------------------------------------------
 
 ```
+
+* popular symbol variables
+
+```bash
+#---------------------------------------------------
+#!/bin/bash
+# script name: specialvars
+echo "\$0 is the script name: $0"
+echo "\$# is number of parameters: $#"
+echo "\$@ contains all parameters and put them in an array: $@" # treat each parameter separately
+for p in "$@"; do
+    echo "$p"
+done
+echo "\$* contains all parameters and treats them as a single string: $*" # treat all parameters as a single string
+for p in "$*"; do
+    echo "$p"
+done
+
+echo "\$\$ is the PID number of this process: $$"
+echo "\$PPIP is the the PID of this process's parent process: $PPID"
+echo "\$! is the PID number of most recent background process: $!"
+(exit 123)
+echo "\$? is the exit status of the preceding command: $?"
+echo "\$_ is the last argument of the preceding command: $_"
+echo "\$- is the flags of options that are set for the running bash: $- "
+
+# reset positional parameters
+oldparams="$@"
+set first second third
+echo "old parameters \"$oldparams\" are overwritten by \"$@\" "
+#---------------------------------------------------
+
+```
+
+* script organization
+  * input and output
+  * function
+  * shell variables (local) and environment variables (global)
+  * arrays
+  * string processing
+  * call other scripts inline, trap signals, and kill processes
+
+* integrate data in script with [here document](https://www.baeldung.com/linux/heredoc-herestring)
+
+```bash
+
+#---------------------------------------------------
+#!/bin/bash
+# script name: withdata
+
+grep -i "$1" <<DATA # DATA here serves as delimiter
+Boxer,date,times of wins
+Mike Foo,February 10,12
+Mike Tason,June 3,100
+Muhamed Ali, September 4, 123
+DATA
+
+#---------------------------------------------------
+```
+
+* [trap](https://www.baeldung.com/cs/os-trap-vs-interrupt) and [signal](https://www.baeldung.com/linux/sigint-and-other-termination-signals)
+
+```bash
+#---------------------------------------------------
+#!/bin/bash
+# script name: locktty
+trap '' 1 2 3 18
+stty -echo
+read -p "Key: " key1
+echo
+read -p "Again: " key2
+echo
+key_3=
+if [ "$key1" = "$key2" ]
+    then
+        tput clear
+        until [ "$key3" = "$key2" ]
+        do
+           read key3
+        done
+    else
+        echo "locktty: keys do not match" 1>&2
+fi
+stty echo
+#---------------------------------------------------
+```
+
 ---
 
 
@@ -335,3 +489,4 @@ echo "Congratulation! You get it!"
     * [in HTML](https://hangar118.sdf.org/p/bash-scripting-guide/index.html)
 * [The Linux Command Line](https://linuxcommand.org/)
   * [Making menus with select](https://linuxize.com/post/bash-select/)
+  * [Signals in Linux](https://linuxcent.com/signals-in-linux/)
