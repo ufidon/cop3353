@@ -1,0 +1,23 @@
+#!/bin/bash
+# script name: guessnum
+echo "guess a number between 1 to 100"
+targetnum=$(($RANDOM % 100 + 1))
+num=1
+count=0
+starting="$SECONDS"
+elpased=0
+echo
+until [ $num -eq $targetnum ]; do
+    read -p "Your guess: " num
+    if [ $num -gt $targetnum ]; then
+        echo "too large"
+    else
+        echo "too small"
+    fi
+	((count++))
+done
+echo "Congratulation! You get it!"
+elpased=$(( $SECONDS - $starting  ))
+myscore=$( echo "10000*1/$elpased/$count" | bc -l  )
+echo "tried $count times, elpased: $elpased, my score: $myscore"
+

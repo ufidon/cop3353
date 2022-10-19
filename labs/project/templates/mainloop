@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "splash art"
+cat <<SPLASHART
+████ █┼█ ███ ███ ███ ███ █┼┼█ ████ ┼┼ █┼┼█ █┼█ █▄┼▄█ ██▄ ███ ███ ███
+█┼▄▄ █┼█ █▄┼ █▄▄ █▄▄ ┼█┼ ██▄█ █┼▄▄ ┼┼ ██▄█ █┼█ █┼█┼█ █▄█ █▄┼ █▄┼ █▄▄
+█▄▄█ ███ █▄▄ ▄▄█ ▄▄█ ▄█▄ █┼██ █▄▄█ ┼┼ █┼██ ███ █┼┼┼█ █▄█ █▄▄ █┼█ ▄▄█
+SPLASHART
+
+echo "help only once"
+
+while $true; do
+
+	read -p 'single letter command: ' cmd
+	case "$cmd" in 
+		h) 
+		echo "show help and usage"
+		;;
+		q)
+		read -p "really want to quit? " quityn
+		case "$quityn" in
+			y) echo "quit now"
+			exit 0
+			;;
+			n)
+			;;
+		esac
+		
+		
+		break;
+		;;
+
+	esac
+
+done
