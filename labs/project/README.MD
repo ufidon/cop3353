@@ -173,7 +173,9 @@ Continue practicing? Enter Y or N:
 
 ```
 
-* How to calculate the score? $ score=\dfrac{difficulty level * 10000}{seconds elapsed * times tried}  $  
+* How to calculate the score? 
+  
+  $$score=\frac{difficulty level * 10000}{seconds elapsed * times tried}$$  
 
 2.5 unimplemented commands  **p,s,l** show "to be implemented ..."
 
