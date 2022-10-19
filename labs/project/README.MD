@@ -9,6 +9,10 @@ This is a term project, 30% of your final score. It includes 3 stages, each take
 
 **How to transfer files between your computer and ember?**
 
+*Prerequisites*
+
+* On Windows: install [Putty](https://www.putty.org/) and add its folder such as "C:\Program Files\PuTTY" to your [PATH environment variale](https://www.computerhope.com/issues/ch000549.htm)
+
 Firstly, cd to the folder containing your script, check you are in the right place with pwd, dir or ls.
 
 * Upload script from your computer to ember
