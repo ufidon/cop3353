@@ -6,6 +6,20 @@ This is a term project, 30% of your final score. It includes 3 stages, each take
 * **Stage 2**: Build the game arrangement
 * **Stage 3**: Carry out various statistics on the game results 
 
+
+**How to transfer files between your computer and ember?**
+
+Firstly, cd to the folder containing your script, check you are in the right place with pwd, dir or ls.
+
+* Upload script from your computer to ember
+  * On Windows: pscp script yourloginid@ember.hpc.lab:/home/yourloginid/
+  * On Mac/Linux:  scp script yourloginid@ember.hpc.lab:/home/yourloginid/
+* Download script from ember to your computer
+  * On Windows: pscp  yourloginid@ember.hpc.lab:/home/yourloginid/script .
+  * On Mac/Linux: scp  yourloginid@ember.hpc.lab:/home/yourloginid/script .
+
+* More information on [pscp](http://xray.rutgers.edu/~matilsky/documents/pscp.htm) and [scp](https://www.baeldung.com/linux/transfer-files-ssh)
+
 ## Stage 1: Build the game logic
 
 Write a script implementing the logic of guessing numbers. Below is a list of the requirements:
