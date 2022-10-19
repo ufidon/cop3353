@@ -1,21 +1,10 @@
 # A National Game of Guessing Numbers
 
-This is a term project, 30% of your final score. It includes 3 stages, each takes 10%. Each stage may consist of one or more scripts.
+This is a term project, 30% of your final score. It includes 3 stages, each takes 10%. Each stage may consists of one or more scripts.
 
 * **Stage 1**: Build the game logic
 * **Stage 2**: Build the game arrangement
 * **Stage 3**: Carry out various statistics on the game results 
-
-You may edit your scripts on Windows, Macs or Linux, then scp or pscp the scripts to ember:
-
-* cd to the folder contains your script, you may use pwd and dir or ls to have a look of your pwd
-* Upload a script to your home folder on ember: 
-  * On Windows: pscp script yourloginid@ember.hpc.lab:/home/yourloginid/
-  * On Mac/Linux: scp script yourloginid@ember.hpc.lab:/home/yourloginid/
-* Download a script from your home folder on ember:
-  * On Windows: pscp  yourloginid@ember.hpc.lab:/home/yourloginid/script .
-  * On Mac/Linux: scp  yourloginid@ember.hpc.lab:/home/yourloginid/script .
-
 
 ## Stage 1: Build the game logic
 
@@ -124,8 +113,8 @@ Enter your command: e
     __                     _      _                                           
     )_)   _   _   _ )       )    / _  _  |                                    
     / \   )_) (_( (_(  (_(  o    (__/ (_) o                                   
-        (_              _)                                                    
-=== Current Difficulty Level : 3 ===
+        (_              _)       
+=== Current Difficulty Level : 3 ===                                                     
 guess a number between 1 to 10000                                             
                                                                               
 Your guess: 5000                                                              
@@ -166,7 +155,7 @@ Continue practicing? Enter Y or N:
 
 ```
 
-* How to calculate the score? $ score=\dfrac{difficulty level * 10000}{seconds elapsed * times tried} $
+* How to calculate the score? $ score=\dfrac{difficulty level * 10000}{seconds elapsed * times tried}  $  
 
 2.5 unimplemented commands  **p,s,l** show "to be implemented ..."
 
