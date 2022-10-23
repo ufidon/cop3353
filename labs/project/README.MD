@@ -202,7 +202,7 @@ The first 3 seasons are for regional competitions. The last season is for the na
 ## Reference
 * Bash tips
   * [Generate a random number in bash](https://linuxhint.com/generate-random-number-bash/)
-  * [Bash lowercase and uppercase strings](https://linuxhint.com/ba   sh_lowercase_uppercase_strings/)
+  * [Bash lowercase and uppercase strings](https://linuxhint.com/bash_lowercase_uppercase_strings/)
   * [Here Document And Here String](https://www.baeldung.com/linux/heredoc-herestring)
 * Text Art
   * [Text Art Generator](https://www.textartgenerator.net/)
