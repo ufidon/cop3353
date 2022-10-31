@@ -1,9 +1,10 @@
-# Part 3: The shells
-*chapter 8-9*
+# Part 3: The shell
+*chapter 14-1*
 
 * [The Bourne Again Shell - bash (chapter 8)](https://www.gnu.org/software/bash/)
 * [Bash programming (chapter 10)](https://tldp.org/LDP/abs/html/)
 * [The TC shell (chapter 9)](https://www.tcsh.org/)
+* [tput, dialog and SQL](http://linuxcommand.org/lc3_adventures.php)
 
 
 ## Advanced bash programming
@@ -143,6 +144,21 @@ locate --regex 'bin/(bz|gz|xz)'
 ls /bin | less
  
 ```
+
+---
+
+* tput
+
+
+---
+
+* dialog
+
+---
+
+* SQL
+
+---
 
 ## References
 * [Bash Shell Scripting](https://en.wikibooks.org/wiki/Bash_Shell_Scripting)

@@ -1,0 +1,9 @@
+id, name,       region,   season,   score
+1,  Liam,       west,     spring,   23.43
+2,  Noah,       midwest,  spring,   33.76   
+3,  Oliver,     northeast,summer,   47.55
+4,  Elijah,     south,    fall,     32.21
+5,  Olivia,     west,     spring,   23.43
+6,  Emma,       northeast,summer,   47.55
+7,  Charlotte,  south,    fall,     32.21
+8,  Amelia,     midwest,  summer,   33.76

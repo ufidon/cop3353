@@ -601,7 +601,7 @@ echo  $username # username is still null
 
 
 # • Use a default value and assign that value to the variable.
-${var:=default} means var <= var=null ? default : var
+# ${var:=default} means var <= var=null ? default : var
 echo ${username:-${USER}}
 echo  $username # username is set to be ${USER} now
 
@@ -735,9 +735,9 @@ echo ${mypath#*.}
 echo ${mypath##*.}
 
 # 3.4 remove substrings matched patterns from right
-# ${var#pattern}, remove the shortest match
+# ${var%pattern}, remove the shortest match
 echo ${mypath%.*}
-# ${var##pattern}, remove the longest match
+# ${var%%pattern}, remove the longest match
 echo ${mypath%%.*}
 
 # 3.5 substring search-and-replace
