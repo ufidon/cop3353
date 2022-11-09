@@ -358,7 +358,7 @@ You used 21 seconds, tried 5 times, scored 95.23809523809523809523
 
 Enter your command: ^C
 
-# 2.2.5 Start the game again, if a gamer played 1,or 2 times, 
+# 2.3 Start the game again, if a gamer played 1,or 2 times, 
 # get her name from the database and welcome her back
 # and show how many times she still can play in the regional arenas
 # ask her to choose a region and a season then start guessing a number
@@ -396,7 +396,7 @@ You used 8 seconds, tried 3 times, scored 416.66666666666666666666
 
 Enter your command: ^C
 
-# 2.2.6 Each regional competition result is saved as a csv record
+# 2.4 Each regional competition result is saved as a csv record
 $ cat ./data/regionresults.txt 
 111111111,Trump,SOUTH,Fall,3,20,30,50.0000000
 111111111,Trump,NORTHEAST,Summer,1,5,30,66.66666666666666666666
@@ -405,7 +405,7 @@ $ cat ./data/regionresults.txt
 333333333,Joe,SOUTH,Fall,1,5,21,95.23809523809523809523
 333333333,Joe,WEST,Summer,1,3,8,416.66666666666666666666
 
-# 2.2.7 If a gamer played 3 times in regional arenas
+# 2.5 If a gamer played 3 times in regional arenas
 # prompt her that she can only participate national arena if qualified
 Enter your command: p
 Welcome to the national game of guessing numbers!
@@ -427,10 +427,11 @@ You did NOT participate any regional arenas yet.
  Please participate regional arenas first.
  Good luck!
 
-# 3.2 If there are records, show the records in descending order on score
-# using a formatted table
-# Scores must be shown only 2 digits after the decimal point
-# AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
+# 3.2 If there are records, 
+# 3.2.1 show the records in descending order on score
+# 3.2.2 using a formatted table
+# 3.2.3 Scores must be shown only 2 digits after the decimal point
+# 3.2.4 AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
 Enter your command: s
 Please enter your UNIQUE 9 digits gamer ID: 111111111
 Hello Trump, here are your competitions
@@ -479,11 +480,12 @@ You did NOT participate any regional arenas yet.
  Please participate regional arenas first.
  Good luck!
 
-# 4.2 If there are records, show the records in descending order on score
-# using a formatted table
-# Scores must be shown only 2 digits after the decimal point
-# AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
-# THE GAMER'S SCORES MUST BE HIGHLIGHTED!
+# 4.2 If there are records, 
+# 4.2.1 show the records in descending order on score
+# 4.2.2 using a formatted table
+# 4.2.3 Scores must be shown only 2 digits after the decimal point
+# 4.2.4 AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
+# 4.2.5 THE GAMER'S SCORES MUST BE HIGHLIGHTED!
 
 ```
 
