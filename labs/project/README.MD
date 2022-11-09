@@ -197,11 +197,11 @@ The first 3 seasons are for regional competitions. The last season is for the na
 1. **Create database**: When starting the game, in the current folder, create a data folder and two text files - regionresults.txt and nationresults.txt if they do not exist. This is done without the gamer's notice. This is a typical step in games for loading data and initializing data structures. To simply our project, we use text files to store game results. You may refer to [Learning Bash File Test Operators With Examples](https://adamtheautomator.com/bash-file-test/).
 
 ```bash
-# 1. At the beginning, there is only the bash script guessnumber2 in the current folder
+# 1.1 At the beginning, there is only the bash script guessnumber2 in the current folder
 $ ls
 guessnumber2
 
-# 2. The data file initialization is done between the splash art and usage infomation
+# 1.2 The data file initialization is done between the splash art and usage infomation
 $ ./guessnumber2 
     _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
     ______¶¶¶¶1111¶¶¶____________¶¶¶1111¶¶¶1_____ 
@@ -239,7 +239,7 @@ loading data and initialize data structures
 
 Enter your command: ^C
 
-# 3. Now the data folder, nationresults.txt, and regionresults.txt are all created
+# 1.3 Now the data folder, nationresults.txt, and regionresults.txt are all created
 $ tree .
 .
 ├── data
@@ -249,7 +249,7 @@ $ tree .
 
 1 directory, 3 files
 
-# 4. All future executions of guessnumbers, 
+# 1.4 All future executions of guessnumbers, 
 # it only shows loading data and initialize data structures
 $ ./guessnumber2 
     _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
@@ -415,7 +415,7 @@ You have competed 3 times in the regional arenas, please participate the nationa
 
 ```
 
-1. Implement the **s** command to show my regional scores in descending order. You may refer to [Pretty print table with awk](https://stackoverflow.com/questions/6262838/pretty-print-table-with-awk), [How to Sort in Linux Bash by Column](https://linuxhint.com/sort-bash-column-linux/) and [How can I sort numbers in a unix shell?](https://unix.stackexchange.com/questions/355266/how-can-i-sort-numbers-in-a-unix-shell)
+3. Implement the **s** command to show my regional scores in descending order. You may refer to [Pretty print table with awk](https://stackoverflow.com/questions/6262838/pretty-print-table-with-awk), [How to Sort in Linux Bash by Column](https://linuxhint.com/sort-bash-column-linux/) and [How can I sort numbers in a unix shell?](https://unix.stackexchange.com/questions/355266/how-can-i-sort-numbers-in-a-unix-shell)
 
 ```bash
 # 3. Show regional scores of a given gamer ID in descending order
