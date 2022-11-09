@@ -185,16 +185,311 @@ to do showScore...
 
 ```
 
-## Stage 2
-The national game has 4 seasons: Spring, Summer, Fall and Winter. It is open to anyone in USA. The gamers must compete in the regional arenas first. 
+## Stage 2: Game competition and database
+The national game has 4 seasons: Spring, Summer, Fall and Winter. It is open to anyone in USA. The gamers must compete in the regional arenas first. Each gamer can compete at most 3 times in the regional competition.
 
-![5 regions of USA](./images/us5regions.svg)
+![4 regions of USA](./images/us5regions.svg)
 
 Only the top 5 out of each region can compete in the national arena.
 
 The first 3 seasons are for regional competitions. The last season is for the national competition. The top winner will be awarded 1 gold medal. The second 2 winners each will be awarded 1 silver medal. The third 3 winners each will be awarded 1 bronze medal.
 
-## Stage 3
+1. **Create database**: When starting the game, in the current folder, create a data folder and two text files - regionresults.txt and nationresults.txt if they do not exist. This is done without the gamer's notice. This is a typical step in games for loading data and initializing data structures. To simply our project, we use text files to store game results. You may refer to [Learning Bash File Test Operators With Examples](https://adamtheautomator.com/bash-file-test/).
+
+```bash
+# 1. At the beginning, there is only the bash script guessnumber2 in the current folder
+$ ls
+guessnumber2
+
+# 2. The data file initialization is done between the splash art and usage infomation
+$ ./guessnumber2 
+    _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
+    ______¶¶¶¶1111¶¶¶____________¶¶¶1111¶¶¶1_____ 
+    _____¶¶¶1111¶¶¶¶_____________¶¶¶¶11111¶¶¶____ 
+    ___¶¶¶11¶1¶1¶¶¶¶___¶¶____¶¶__¶¶¶¶¶1¶1¶1¶¶¶1__ 
+    __¶¶¶11¶1¶11¶¶¶¶¶__¶¶¶¶¶¶¶¶__¶¶¶¶¶1¶1¶¶11¶¶1_ 
+    _¶¶¶11¶¶1¶11¶¶¶¶¶¶__¶¶¶¶¶¶_¶¶¶¶¶¶¶1¶¶1¶¶1¶¶¶_ 
+    ¶¶¶¶1¶¶11¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶1¶¶¶1¶¶¶ 
+    ████ █┼█ ███ ███ ███ ┼┼ █┼┼█ █┼█ █▄┼▄█ ██▄ ███ ███
+    █┼▄▄ █┼█ █▄┼ █▄▄ █▄▄ ┼┼ ██▄█ █┼█ █┼█┼█ █▄█ █▄┼ █▄┼
+    █▄▄█ ███ █▄▄ ▄▄█ ▄▄█ ┼┼ █┼██ ███ █┼┼┼█ █▄█ █▄▄ █┼█
+    _¶¶¶1¶¶¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶¶¶1¶¶1 
+    __¶¶1¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶1¶¶¶_ 
+    ___¶¶1¶¶¶_¶¶_______¶¶¶¶¶¶¶¶______¶¶¶¶¶¶¶¶¶¶__ 
+    ____¶¶¶¶____________¶¶¶¶¶¶___________¶¶¶¶____ 
+    ______¶¶¶__________¶¶¶__¶¶¶__________¶¶______ 
+    _______¶¶¶_________¶______¶_________¶¶¶______
+-------------------------------------------
+loading data and initialize data structures
+./data folder not exist, creating it...
+./data folder created.
+./data/regionresults.txt not exist, creating it...
+./data/regionresults.txt created.
+./data/nationresults.txt not exist, creating it...
+./data/nationresults.txt created.
+-------------------------------------------
+    Usage: use single letter command to play the game
+    h - help, show this command list
+    e - do exercise by oneself
+    c - change game difficulty level
+    q - quit the game
+    p - participate competition
+    s - show my score in descending order
+    l - show my place in all gamers
+
+Enter your command: ^C
+
+# 3. Now the data folder, nationresults.txt, and regionresults.txt are all created
+$ tree .
+.
+├── data
+│   ├── nationresults.txt
+│   └── regionresults.txt
+└── guessnumber2
+
+1 directory, 3 files
+
+# 4. All future executions of guessnumbers, 
+# it only shows loading data and initialize data structures
+$ ./guessnumber2 
+    _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
+    ______¶¶¶¶1111¶¶¶____________¶¶¶1111¶¶¶1_____ 
+    _____¶¶¶1111¶¶¶¶_____________¶¶¶¶11111¶¶¶____ 
+    ___¶¶¶11¶1¶1¶¶¶¶___¶¶____¶¶__¶¶¶¶¶1¶1¶1¶¶¶1__ 
+    __¶¶¶11¶1¶11¶¶¶¶¶__¶¶¶¶¶¶¶¶__¶¶¶¶¶1¶1¶¶11¶¶1_ 
+    _¶¶¶11¶¶1¶11¶¶¶¶¶¶__¶¶¶¶¶¶_¶¶¶¶¶¶¶1¶¶1¶¶1¶¶¶_ 
+    ¶¶¶¶1¶¶11¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶1¶¶¶1¶¶¶ 
+    ████ █┼█ ███ ███ ███ ┼┼ █┼┼█ █┼█ █▄┼▄█ ██▄ ███ ███
+    █┼▄▄ █┼█ █▄┼ █▄▄ █▄▄ ┼┼ ██▄█ █┼█ █┼█┼█ █▄█ █▄┼ █▄┼
+    █▄▄█ ███ █▄▄ ▄▄█ ▄▄█ ┼┼ █┼██ ███ █┼┼┼█ █▄█ █▄▄ █┼█
+    _¶¶¶1¶¶¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶¶¶1¶¶1 
+    __¶¶1¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶1¶¶¶_ 
+    ___¶¶1¶¶¶_¶¶_______¶¶¶¶¶¶¶¶______¶¶¶¶¶¶¶¶¶¶__ 
+    ____¶¶¶¶____________¶¶¶¶¶¶___________¶¶¶¶____ 
+    ______¶¶¶__________¶¶¶__¶¶¶__________¶¶______ 
+    _______¶¶¶_________¶______¶_________¶¶¶______
+-------------------------------------------
+loading data and initialize data structures
+-------------------------------------------
+    Usage: use single letter command to play the game
+    h - help, show this command list
+    e - do exercise by oneself
+    c - change game difficulty level
+    q - quit the game
+    p - participate competition
+    s - show my score in descending order
+    l - show my place in all gamers
+
+Enter your command: ^C
+
+```
+
+2. Now we have the pseudo database. Each gamer can compete at most 3 times in the regional competition during any of the Spring, Summer and Fall season. This is done in the **p** command. You may refer to [Grep and Regular Expressions!](https://ryanstutorials.net/linuxtutorial/grep.php) to find all records of a given gamer ID. To extract a specific field from a record, You may refer to [Cut Command in Linux](https://linuxize.com/post/linux-cut-command/).
+
+```bash
+# 2.1 Check gamer ID, it should be a unique number of 9 digits
+# this can be handled with regular expression
+# Don't use your SSN number
+Enter your command: p
+Welcome to the national game of guessing numbers!
+Please enter your UNIQUE 9 digits gamer ID: 123
+Your gamer ID 123 is NOT 9 digits!
+Please enter your UNIQUE 9 digits gamer ID: abc
+Your gamer ID abc is NOT 9 digits!
+Please enter your UNIQUE 9 digits gamer ID: abcdefghi 
+Your gamer ID abcdefghi is NOT 9 digits!
+Please enter your UNIQUE 9 digits gamer ID: 333333333
+
+# 2.2 Once a valid gamer ID is entered and the gamer has NO records
+# 2.2.1 Ask the gamer to choose a region
+# Wrong choices need to be handled with regular expression
+Available regions for competition:
+1) SOUTH
+2) NORTHEAST
+3) MIDWEST
+4) WEST
+Please select a region: 5
+You did't make your choice!
+Please select a region: 0
+You did't make your choice!
+Please select a region: 1
+# 2.2.2 Ask the gamer to choose a season
+# Wrong choices need to be handled with regular expression
+Seasons for regional competition:
+1) Spring
+2) Summer
+3) Fall
+Please select a season: 0
+You did't make your choice!
+Please select a season: 4
+You did't make your choice!
+Please select a season: 3
+# 2.2.3 Ask the gamer to enter name
+# Name need to be handled with regular expression, 
+# it can contain only letters
+Please enter your name: Joe Biden
+Your name can contain only letters!
+Please enter your name: Joe123
+Your name can contain only letters!
+Please enter your name: 123Joe
+Your name can contain only letters!
+Please enter your name: Joe
+
+# 2.2.4 Start guessing a number
+    __                     _      _        
+    )_)   _   _   _ )       )    / _  _  | 
+    / \   )_) (_( (_(  (_(  o    (__/ (_) o 
+        (_              _)                 
+=== Current Difficulty Level : 1 ===
+guess a number between 1 to 100 
+
+Your guess: 50
+too small
+Your guess: 75
+too small
+Your guess: 80
+too small
+Your guess: 90
+too large
+Your guess: 85
+too small
+Congratulation! You get it!
+You used 21 seconds, tried 5 times, scored 95.23809523809523809523
+
+Enter your command: ^C
+
+# 2.2.5 Start the game again, if a gamer played 1,or 2 times, 
+# get her name from the database and welcome her back
+# and show how many times she still can play in the regional arenas
+# ask her to choose a region and a season then start guessing a number
+Enter your command: p
+Welcome to the national game of guessing numbers!
+Please enter your UNIQUE 9 digits gamer ID: 333333333
+Hello Joe, welcome back!
+You have competed 1 times in the regional arenas. You still can compete 2 times in the regional arenas.
+Available regions for competition:
+1) SOUTH
+2) NORTHEAST
+3) MIDWEST
+4) WEST
+Please select a region: 4
+Seasons for regional competition:
+1) Spring
+2) Summer
+3) Fall
+Please select a season: 2
+    __                     _      _        
+    )_)   _   _   _ )       )    / _  _  | 
+    / \   )_) (_( (_(  (_(  o    (__/ (_) o 
+        (_              _)                 
+=== Current Difficulty Level : 1 ===
+guess a number between 1 to 100 
+
+Your guess: 50
+too large
+Your guess: 25
+too small
+Your guess: 30
+too small
+Congratulation! You get it!
+You used 8 seconds, tried 3 times, scored 416.66666666666666666666
+
+Enter your command: ^C
+
+# 2.2.6 Each regional competition result is saved as a csv record
+$ cat ./data/regionresults.txt 
+111111111,Trump,SOUTH,Fall,3,20,30,50.0000000
+111111111,Trump,NORTHEAST,Summer,1,5,30,66.66666666666666666666
+111111111,Trump,WEST,Spring,1,6,30,55.55555555555555555555
+222222222,Biden,MIDWEST,Summer,1,5,21,95.23809523809523809523
+333333333,Joe,SOUTH,Fall,1,5,21,95.23809523809523809523
+333333333,Joe,WEST,Summer,1,3,8,416.66666666666666666666
+
+# 2.2.7 If a gamer played 3 times in regional arenas
+# prompt her that she can only participate national arena if qualified
+Enter your command: p
+Welcome to the national game of guessing numbers!
+Please enter your UNIQUE 9 digits gamer ID: 111111111
+Hello Trump, welcome back!
+You have competed 3 times in the regional arenas, please participate the national arena if you are qualified.
+
+```
+
+1. Implement the **s** command to show my regional scores in descending order. You may refer to [Pretty print table with awk](https://stackoverflow.com/questions/6262838/pretty-print-table-with-awk), [How to Sort in Linux Bash by Column](https://linuxhint.com/sort-bash-column-linux/) and [How can I sort numbers in a unix shell?](https://unix.stackexchange.com/questions/355266/how-can-i-sort-numbers-in-a-unix-shell)
+
+```bash
+# 3. Show regional scores of a given gamer ID in descending order
+# 3.1 If no record for this gamer ID, ask the gamer to participate regional competition
+Enter your command: s
+Please enter your UNIQUE 9 digits gamer ID: 123456789
+
+You did NOT participate any regional arenas yet.
+ Please participate regional arenas first.
+ Good luck!
+
+# 3.2 If there are records, show the records in descending order on score
+# using a formatted table
+# Scores must be shown only 2 digits after the decimal point
+# AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
+Enter your command: s
+Please enter your UNIQUE 9 digits gamer ID: 111111111
+Hello Trump, here are your competitions
+
+-------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-------------------------------------------------
+NORTHEAST  Summer   1        5     30       66.67   
+WEST       Spring   1        6     30       55.56   
+SOUTH      Fall     3        20    30       50.00   
+-------------------------------------------------
+
+Enter your command: s
+Please enter your UNIQUE 9 digits gamer ID: 222222222
+Hello Biden, here are your competitions
+
+-------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-------------------------------------------------
+MIDWEST    Summer   1        5     21       95.24   
+-------------------------------------------------
+
+Enter your command: s
+Please enter your UNIQUE 9 digits gamer ID: 333333333
+Hello Joe, here are your competitions
+
+-------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-------------------------------------------------
+WEST       Summer   1        3     8       416.67  
+SOUTH      Fall     1        5     21       95.24   
+-------------------------------------------------
+
+
+```
+
+4. Implement the **l** command to show my place. Refer to [How to change the output color of echo in Linux](https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux) and [Bash Pass Shell Variables To Awk Using -v Option](https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-bash-passing-variables-to-awk/)
+
+```bash
+# 4.1 If no record for this gamer ID, ask the gamer to 
+# participate regional competition as the previous task
+Enter your command: l
+Please enter your UNIQUE 9 digits gamer ID: 123456789
+
+You did NOT participate any regional arenas yet.
+ Please participate regional arenas first.
+ Good luck!
+
+# 4.2 If there are records, show the records in descending order on score
+# using a formatted table
+# Scores must be shown only 2 digits after the decimal point
+# AND BE RIGHT ALIGNED, ALL OTHER FIELDS ARE LEFT ALIGNED
+# THE GAMER'S SCORES MUST BE HIGHLIGHTED!
+
+```
+
+![places](images/place.png)
+
+## Stage 3: National competition
 
 
 

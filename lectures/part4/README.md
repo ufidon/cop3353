@@ -180,7 +180,7 @@ for(i in arrdays)
 | Arithmetic |	+, -, *, /, %, ^  |
 | Assignment |	=, +=, -=, *=, /=, %=, ^=, ++, --  |
 | Relational |	<, >, <=, >=, ==, !=  |
-| Matching	 |  ~, !~  |
+| Matching	 |  \~, !\~  |
 | Logical	 |    \|\|, &&  |
 | Array	     |  in |
 

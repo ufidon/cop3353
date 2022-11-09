@@ -1,9 +1,7 @@
-id, name,       region,   season,   score
-1,  Liam,       west,     spring,   23.43
-2,  Noah,       midwest,  spring,   33.76   
-3,  Oliver,     northeast,summer,   47.55
-4,  Elijah,     south,    fall,     32.21
-5,  Olivia,     west,     spring,   23.43
-6,  Emma,       northeast,summer,   47.55
-7,  Charlotte,  south,    fall,     32.21
-8,  Amelia,     midwest,  summer,   33.76
+111111111,Trump,SOUTH,Fall,3,20,30,50.0000000
+111111111,Trump,NORTHEAST,Summer,1,5,30,66.66666666666666666666
+111111111,Trump,WEST,Spring,1,6,30,55.55555555555555555555
+222222222,Biden,MIDWEST,Summer,1,5,21,95.23809523809523809523
+333333333,Joe,SOUTH,Fall,1,5,21,95.23809523809523809523
+333333333,Joe,WEST,Summer,1,3,8,416.66666666666666666666
+444444444,Clinton,WEST,Summer,1,6,30,55.55555555555555555555
