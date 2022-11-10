@@ -25,6 +25,7 @@ Firstly, cd to the folder containing your script, check you are in the right pla
 * More information on [pscp](http://xray.rutgers.edu/~matilsky/documents/pscp.htm) and [scp](https://www.baeldung.com/linux/transfer-files-ssh)
 
 ## Stage 1: Build the game logic
+*check template1 to start*
 
 Write a script implementing the logic of guessing numbers. Below is a list of the requirements:
 
@@ -186,6 +187,8 @@ to do showScore...
 ```
 
 ## Stage 2: Game competition and database
+*check template2 for start*
+
 The national game has 4 seasons: Spring, Summer, Fall and Winter. It is open to anyone in USA. The gamers must compete in the regional arenas first. Each gamer can compete at most 3 times in the regional competition.
 
 ![4 regions of USA](./images/us5regions.svg)
@@ -505,3 +508,6 @@ You did NOT participate any regional arenas yet.
   * [Text Art Generator](https://www.textartgenerator.net/)
   * [ASCII-Generator](https://ascii-generator.site/t/)
   * [Ascii Art creator ](https://www.ascii-art-generator.org/)
+* How to debug bash script
+  * [Debugging a Bash Script](https://www.baeldung.com/linux/debug-bash-script)
+  * [Debugging Bash scripts](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_02_03.html)
