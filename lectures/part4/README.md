@@ -5,6 +5,14 @@
 * [gawk (chapter 14)](https://www.gnu.org/software/gawk/manual/gawk.html)
 * [The sed editor(chapter 15)](https://www.gnu.org/software/sed/manual/sed.html)
 
+## Makefile
+
+* [Makefile tutorial](https://makefiletutorial.com/)
+* [GNU make](https://www.gnu.org/software/make/)
+  * [Online manual](https://www.gnu.org/software/make/manual/make.html)
+
+---
+
 ## The awk pattern processing language
 
 awk is a pattern-scanning and processing language on text files.
@@ -487,6 +495,52 @@ sort -nk4 nationresults.txt # in ascending order
 sort -r -nk4 nationresults.txt # in descending order
 
 ```
+
+---
+
+## [sed](https://www.gnu.org/software/sed/)
+
+* [Sed - An Introduction and Tutorial by Bruce Barnett](https://www.grymoire.com/Unix/Sed.html)
+* [Online manual: sed, a stream editor](https://www.gnu.org/software/sed/manual/sed.html)
+
+```bash
+# sed cookbook
+
+# 1. simulate cat
+sed '' filename # cat filename
+
+# 2. print line 1 and 3
+seq 10 | sed -n '1p;3p'
+
+# 3. print line 1 to 3
+seq 10 | sed -n '1,3p'
+
+# 4. delete line 1 and 3
+seq 5 | sed -e '1d' -e '3d'
+# or
+seq 5 | sed -e "1d;3d"
+
+# 5. execute command date and insert its output at line 2
+seq 5 | sed '2 e date'
+
+# 6. insert a word before each line
+seq 5 | sed 's/^./Line &/'
+
+# 7. del empty lines
+sed '/^$/d' filename
+
+# 8. del java line comments
+sed 's|//.*||g' program.java
+
+# 9. simulate wc -l
+sed -n '$=' filename
+
+# 10. search and replace all occurances 
+sed -n 's/regex/replace/g' filename
+
+```
+
+---
 
 ## References
 * [nawk - pattern-directed scanning and processing language](https://linux.die.net/man/1/nawk)

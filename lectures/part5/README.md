@@ -2,7 +2,7 @@
 *chapter 16-17*
 
 * [The rsync secure copy utility (chapter 16)](https://en.wikipedia.org/wiki/Rsync)
-* [The openssh secure communication utilities (chapter 17)]()
+* [The openssh secure communication utilities (chapter 17)](https://www.openssh.com/manual.html)
 
 ## Linux networking commands and tools
 
