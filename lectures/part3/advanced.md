@@ -147,16 +147,16 @@ ls /bin | less
 
 ---
 
-* tput
+* [tput](http://linuxcommand.org/lc3_adv_tput.php)
 
 
 ---
 
-* dialog
+* [dialog](http://linuxcommand.org/lc3_adv_dialog.php)
 
 ---
 
-* SQL
+* [SQL](http://linuxcommand.org/lc3_adv_sql.php)
 
 ---
 
