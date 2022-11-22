@@ -3,8 +3,8 @@
 This is a term project, 30% of your final score. It includes 3 stages, each takes 10%. Each stage may consists of one or more scripts.
 
 * **Stage 1**: Build the game logic
-* **Stage 2**: Build the game arrangement
-* **Stage 3**: Carry out various statistics on the game results 
+* **Stage 2**: Regional competition
+* **Stage 3**: National competition 
 
 
 **How to transfer files between your computer and ember?**
@@ -186,14 +186,14 @@ to do showScore...
 
 ```
 
-## Stage 2: Game competition and database
+## Stage 2: Regional competition and database
 *check template2 for start*
 
 The national game has 4 seasons: Spring, Summer, Fall and Winter. It is open to anyone in USA. The gamers must compete in the regional arenas first. Each gamer can compete at most 3 times in the regional competition.
 
 ![4 regions of USA](./images/us5regions.svg)
 
-Only the top 5 out of each region can compete in the national arena.
+Only the top 3 out of each region can compete in the national arena.
 
 The first 3 seasons are for regional competitions. The last season is for the national competition. The top winner will be awarded 1 gold medal. The second 2 winners each will be awarded 1 silver medal. The third 3 winners each will be awarded 1 bronze medal.
 
@@ -407,6 +407,7 @@ $ cat ./data/regionresults.txt
 222222222,Biden,MIDWEST,Summer,1,5,21,95.23809523809523809523
 333333333,Joe,SOUTH,Fall,1,5,21,95.23809523809523809523
 333333333,Joe,WEST,Summer,1,3,8,416.66666666666666666666
+#gamerID,gamerName,region,season,difficulty level,times tried,seconds elapsed,score
 
 # 2.5 If a gamer played 3 times in regional arenas
 # prompt her that she can only participate national arena if qualified
@@ -495,9 +496,239 @@ You did NOT participate any regional arenas yet.
 ![places](images/place.png)
 
 ## Stage 3: National competition
+Only the top 3 out of each region can compete in the national arena.
+
+The Winter season is for the national competition. The top winner will be awarded 1 gold medal. The second 2 winners each will be awarded 1 silver medal. The third 3 winners each will be awarded 1 bronze medal.
+
+1. Add **5 more commands** into the help menu and the main game logic.
+```
+   r - show regional top three in descending order
+   a - check my qualification of attending national arena
+   n - show national competitors
+   P - participate national competition
+   w - print national winners
+```
+
+```bash
+1.1 Show the 5 more new commands into the help information
+
+    Usage: use single letter command to play the game
+    h - help, show this command list
+    e - do exercise by oneself
+    c - change game difficulty level
+    q - quit the game
+    p - participate regional competition
+    s - show my score in descending order
+    l - show my place in all gamers
+    r - show regional top three in descending order
+    a - check my qualification of attending national arena
+    n - show national competitors
+    P - participate national competition
+    w - print national winners
+
+1.2 Add the 5 more new commands into the main game logic so
+    the gamer can choose and execute each of them
+```
+
+2. Implement the command **r** showing regional top three in descending order
+   1. For a gamer played multiple times in this region, use her highest score only
+   2. Highlight the title and scores as the sample image below 
+
+Hints:
+
+* Find all records of a region, for example: 
+```bash
+egrep "\<WEST\>" ./data/regionresults.txt
+```
+* Sort the records in descending order on score: 
+```bash
+egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8
+```
+* For multiple-time players, keep only their first records, i.e. their highest records. You may refer to [Sort CSV file by multiple columns using the "sort" command](https://stackoverflow.com/questions/9471101/sort-csv-file-by-multiple-columns-using-the-sort-command) for further information.
+```bash
+egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '!a[$1]++'
+```
+* Then keep only the top three
+```bash
+egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '!a[$1]++' | head -n 3 
+```
+
+* **Note:** 
+  * **1. There could be a tie, you are NOT required to solve this, simply keep the top three.**
+  * **2. A gamer is forbidden to play in more than one region, you are NOT reqired to solve that in the r command**
+
+![r command](images/r.png)
+
+3. Implement the command **a** of checking my qualification of attending national arena
+   1. If I attended more than one regional arena, then I am disqualified
+   2. If I did not attend any regional arena, I am asked to do that first
+   3. If I am qualified, highlight my place in the top three
+
+```bash
+# 3.1 If I attended more than one regional arena, then I am disqualified
+
+Enter your command: a
+Please enter your UNIQUE 9 digits gamer ID: 111111111
+Dear Trump, You competed in 3 regions so you are DISQUALIFIED! 
+
+Below are your records:
+-----------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-----------------------------------------------------
+NORTHEAST  Summer   1        5     30          66.67
+WEST       Spring   1        6     30          55.56
+SOUTH      Fall     3        20    30          50.00
+-----------------------------------------------------
+
+Enter your command: a
+Please enter your UNIQUE 9 digits gamer ID: 333333333
+Dear Joe, You competed in 2 regions so you are DISQUALIFIED! 
+
+Below are your records:
+-----------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-----------------------------------------------------
+WEST       Summer   1        3     8          416.67
+SOUTH      Fall     1        5     21          95.24
+-----------------------------------------------------
+
+# 3.2 If I did not attend any regional arena, I am asked to do that first
+Enter your command: a
+Please enter your UNIQUE 9 digits gamer ID: 112233445
+
+You did NOT participate any regional arenas yet.
+ Please participate regional arenas first.
+ Good luck!
+
+# If I am qualified, highlight my place in the top three
+```
+
+![a - qualified](images/a.png)
+
+4. Implement the command **n** to show national competitors from each region. 
+    Hints: reuse the **r** command.
+
+![n command](images/n.png)
+
+5. Implement the command **P** to participate national competition
+   1. If the gamer has no regional records, ask her to participate regional arenas first
+   2. The gamer attended multiple regions is automatically disqualified
+   3. A gamer who is not in the top three of his region is not qualified
+   4. A gamer can play only once in the national arena
+   5. A qualified gamer can play once in the national arena
+      1. The diffcult level is set to be 3 automatically
+      2. No region or season selection
+      3. Welcome the gamer with his/her name, then let he/she play the game
+      4. The result is saved in the nationresults.txt
 
 
+```bash
+# 5.1 If the gamer has no regional records, ask her to participate regional arenas first
+Enter your command: P
+Please enter your UNIQUE 9 digits gamer ID: 123456789
 
+You did NOT participate any regional arenas yet.
+ Please participate regional arenas first.
+ Good luck!
+
+# 5.2 The gamer attended multiple regions is automatically disqualified
+Enter your command: P
+Please enter your UNIQUE 9 digits gamer ID: 111111111
+Dear Trump, you are DISQUALIFIED because you competed in 3 regions! 
+
+Below are your records:
+-----------------------------------------------------
+Region     Season   Level    Times Seconds  Score   
+-----------------------------------------------------
+NORTHEAST  Summer   1        5     30          66.67
+WEST       Spring   1        6     30          55.56
+SOUTH      Fall     3        20    30          50.00
+-----------------------------------------------------
+
+# 5.3 A gamer who is not in the top three of his region is not qualified
+Enter your command: P
+Please enter your UNIQUE 9 digits gamer ID: 123456784
+Hello Kennedy, you are not in the top 3 of the WEST arena!
+
+# 5.4 A gamer can play only once in the national arena
+Enter your command: P
+Please enter your UNIQUE 9 digits gamer ID: 555555555
+Hello Pence, you can play only ONCE in the national arena!
+
+# 5.5 A qualified gamer can play once in the national arena
+# 5.5.1 The diffcult level is set to be 3 automatically
+# 5.5.2 No region or season selection
+# 5.5.3 Welcome the gamer with his/her name, then let he/she play the game
+Enter your command: P
+Please enter your UNIQUE 9 digits gamer ID: 444444444
+Hello Clinton, Welcome to the National arena of guessing numbers!
+    __                     _      _        
+    )_)   _   _   _ )       )    / _  _  | 
+    / \   )_) (_( (_(  (_(  o    (__/ (_) o 
+        (_              _)                 
+=== Current Difficulty Level : 3 ===
+guess a number between 1 to 10000 
+
+Your guess: 5000
+too small
+Your guess: 8000
+too small
+Your guess: 9000
+too small
+Your guess: 9500
+too small
+Your guess: 9800
+too large
+Your guess: 9700
+too small
+Your guess: 9800
+too large
+Your guess: 9750
+too small
+Your guess: 9780
+too small
+Your guess: 9790
+too large
+Your guess: 9785
+too small
+Congratulation! You get it!
+You used 56 seconds, tried 11 times, scored 48.70129870129870129870
+
+
+# 5.5.4 The result is appended in the nationresults.txt
+$ tail -n 2 data/nationresults.txt 
+123456782,Nixon,NORTHEAST,10,119,25.210084033613445
+444444444,Clinton,WEST,11,56,48.70129870129870129870
+#gamerID,name,region,times tried,seconds elapsed,score
+
+```
+
+6. Implement the **w** command to print national winners
+   1. The top winner will be awarded 1 gold medal. 
+   2. The second 2 winners each will be awarded 1 silver medal. 
+   3. The third 3 winners each will be awarded 1 bronze medal.
+   4. Alternate the color of each row
+
+* **Note:** 
+  * **1. There could be a tie, you are NOT required to solve this, simply keep the top six.**
+
+![w command](images/w.png)
+
+**Hints: how to alternate the color of rows?**
+
+```bash
+awk -F, -v red="$RED" -v white="$WHITE"  '
+    BEGIN{
+        medals="Gold,Silver,Silver,Bronze,Bronze,Bronze"; split(medals,medal,",");
+    } 
+    {
+        if(NR % 2)
+            printf("%s%-10s %-10s %8.2f %-8s%s\n", red, $2, $3, $6, medal[NR],white );
+        else
+            printf("%-10s %-10s %8.2f %-8s\n", $2, $3, $6, medal[NR] );
+    }
+    '
+```
 
 ## Reference
 * Bash tips
