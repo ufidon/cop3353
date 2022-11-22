@@ -510,7 +510,7 @@ The Winter season is for the national competition. The top winner will be awarde
 ```
 
 ```bash
-1.1 Show the 5 more new commands into the help information
+1.1 Show the 5 more new commands in the help information
 
     Usage: use single letter command to play the game
     h - help, show this command list
@@ -530,7 +530,7 @@ The Winter season is for the national competition. The top winner will be awarde
     the gamer can choose and execute each of them
 ```
 
-2. Implement the command **r** showing regional top three in descending order
+2. Implement command **r** showing regional top three in descending order
    1. For a gamer played multiple times in this region, use her highest score only
    2. Highlight the title and scores as the sample image below 
 
@@ -559,7 +559,7 @@ egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '
 
 ![r command](images/r.png)
 
-3. Implement the command **a** of checking my qualification of attending national arena
+3. Implement command **a** to check my qualification of attending national arena
    1. If I attended more than one regional arena, then I am disqualified
    2. If I did not attend any regional arena, I am asked to do that first
    3. If I am qualified, highlight my place in the top three
@@ -600,17 +600,17 @@ You did NOT participate any regional arenas yet.
  Please participate regional arenas first.
  Good luck!
 
-# If I am qualified, highlight my place in the top three
+# 3.3 If I am qualified, highlight my place in the top three
 ```
 
 ![a - qualified](images/a.png)
 
-4. Implement the command **n** to show national competitors from each region. 
+4. Implement  command **n** to show national competitors from each region. 
     Hints: reuse the **r** command.
 
 ![n command](images/n.png)
 
-5. Implement the command **P** to participate national competition
+5. Implement  command **P** to participate national competition
    1. If the gamer has no regional records, ask her to participate regional arenas first
    2. The gamer attended multiple regions is automatically disqualified
    3. A gamer who is not in the top three of his region is not qualified
@@ -695,7 +695,7 @@ Congratulation! You get it!
 You used 56 seconds, tried 11 times, scored 48.70129870129870129870
 
 
-# 5.5.4 The result is appended in the nationresults.txt
+# 5.5.4 The result is appended to the nationresults.txt
 $ tail -n 2 data/nationresults.txt 
 123456782,Nixon,NORTHEAST,10,119,25.210084033613445
 444444444,Clinton,WEST,11,56,48.70129870129870129870
