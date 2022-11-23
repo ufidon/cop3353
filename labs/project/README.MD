@@ -561,7 +561,7 @@ egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '
 
 ![r command](images/r.png)
 
-1. Implement command **a** to check my qualification of attending national arena
+3. Implement command **a** to check my qualification of attending national arena
    1. If I attended more than one regional arena, then I am disqualified
    2. If I did not attend any regional arena, I am asked to do that first
    3. If I am qualified, highlight my place in the top three
