@@ -544,7 +544,9 @@ egrep "\<WEST\>" ./data/regionresults.txt
 ```bash
 egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8
 ```
-* For multiple-time players, keep only their first records, i.e. their highest records. You may refer to [Sort CSV file by multiple columns using the "sort" command](https://stackoverflow.com/questions/9471101/sort-csv-file-by-multiple-columns-using-the-sort-command) for further information.
+* For multiple-time players, keep only their first records, i.e. their highest records. You may refer to [Sort CSV file by multiple columns using the "sort" command](https://stackoverflow.com/questions/9471101/sort-csv-file-by-multiple-columns-using-the-sort-command) and [Is There a Way to ‘uniq’ by Column?](https://www.baeldung.com/linux/uniq-by-column) for further information.
+
+
 ```bash
 egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '!a[$1]++'
 ```
@@ -559,7 +561,7 @@ egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '
 
 ![r command](images/r.png)
 
-3. Implement command **a** to check my qualification of attending national arena
+1. Implement command **a** to check my qualification of attending national arena
    1. If I attended more than one regional arena, then I am disqualified
    2. If I did not attend any regional arena, I am asked to do that first
    3. If I am qualified, highlight my place in the top three
