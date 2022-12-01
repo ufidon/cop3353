@@ -566,6 +566,34 @@ egrep "\<WEST\>" ./data/regionresults.txt  | sort  -t ',' -rn -k 8,8 | awk -F, '
    2. If I did not attend any regional arena, I am asked to do that first
    3. If I am qualified, highlight my place in the top three
 
+
+Hints:
+
+* Find the number of different regions the gamer attended
+```bash
+# 1. find all records of gamerID
+egrep ^$gamerID ./data/regionresults.txt 
+# 2. extract the region column, in the reference dataset, it is column 3
+egrep ^$gamerID ./data/regionresults.txt | cut -d ',' -f 3 
+# 3. sort the region column and select only different regions, i.e. prune duplicates
+egrep ^$gamerID ./data/regionresults.txt | cut -d ',' -f 3  | sort | uniq 
+# 4. count the number of different regions
+egrep ^$gamerID ./data/regionresults.txt | cut -d ',' -f 3  | sort | uniq | wc -l
+# 5. save the number of different regions in variable numregions using command subsitution
+numregions=$(egrep ^$gamerID ./data/regionresults.txt | cut -d ',' -f 3  | sort | uniq | wc -l)
+
+```
+
+* Based on the number of different regions, proceed accordingly
+```bash
+# 6. Now, if $numregions > 1, gamerID is disqulified; 
+# elif $numregion < 1, gamerID has NO records; 
+# else gamerID attended only one region, extract his region, find the top 3, then find
+# whether gamerID is in the top 3, if not, say "unfortunately, you are not in the top 3"
+# else say "congratulations!" and highlight the gamerID in the top 3
+```
+
+
 ```bash
 # 3.1 If I attended more than one regional arena, then I am disqualified
 
@@ -710,6 +738,8 @@ $ tail -n 2 data/nationresults.txt
    2. The second 2 winners each will be awarded 1 silver medal. 
    3. The third 3 winners each will be awarded 1 bronze medal.
    4. Alternate the color of each row
+
+Hints: use nationresults.txt only.
 
 * **Note:** 
   * **1. There could be a tie, you are NOT required to solve this, simply keep the top six.**
