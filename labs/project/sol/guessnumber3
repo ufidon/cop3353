@@ -1,0 +1,592 @@
+#!/bin/bash
+
+# global variables
+gDIFLEVEL=1
+gDIFLOW=1
+gDIFHIGH=100
+
+gGUESSTIMES=0
+gTIMEELLAPSE=0
+gSCORE=0
+
+gDBFOLDER="./data"
+gREGIONDB="${gDBFOLDER}/regionresults.txt"
+gNATIONDB="${gDBFOLDER}/nationresults.txt"
+
+gGAMERID=123456789
+gGAMERNAME="Donuld Trump"
+gTIMESPLAYED=0
+gSEASON=Spring
+gREGION=SOUTH
+
+# functions
+function showHelp()
+{
+    cat <<_help_
+    Usage: use single letter command to play the game
+    h - help, show this command list
+    e - do exercise by oneself
+    c - change game difficulty level
+    q - quit the game
+    p - participate regional competition
+    s - show my score in descending order
+    l - show my place in all gamers
+    r - show regional top three in descending order
+    a - check my qualification of attending national arena
+    n - show national competitors
+    P - participate national competition
+    w - print national winners
+_help_
+}
+
+function showSplash()
+{
+    cat <<_SPLASH_
+    _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
+    ______¶¶¶¶1111¶¶¶____________¶¶¶1111¶¶¶1_____ 
+    _____¶¶¶1111¶¶¶¶_____________¶¶¶¶11111¶¶¶____ 
+    ___¶¶¶11¶1¶1¶¶¶¶___¶¶____¶¶__¶¶¶¶¶1¶1¶1¶¶¶1__ 
+    __¶¶¶11¶1¶11¶¶¶¶¶__¶¶¶¶¶¶¶¶__¶¶¶¶¶1¶1¶¶11¶¶1_ 
+    _¶¶¶11¶¶1¶11¶¶¶¶¶¶__¶¶¶¶¶¶_¶¶¶¶¶¶¶1¶¶1¶¶1¶¶¶_ 
+    ¶¶¶¶1¶¶11¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶1¶¶¶1¶¶¶ 
+    ████ █┼█ ███ ███ ███ ┼┼ █┼┼█ █┼█ █▄┼▄█ ██▄ ███ ███
+    █┼▄▄ █┼█ █▄┼ █▄▄ █▄▄ ┼┼ ██▄█ █┼█ █┼█┼█ █▄█ █▄┼ █▄┼
+    █▄▄█ ███ █▄▄ ▄▄█ ▄▄█ ┼┼ █┼██ ███ █┼┼┼█ █▄█ █▄▄ █┼█
+    _¶¶¶1¶¶¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶¶¶1¶¶1 
+    __¶¶1¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶1¶¶¶_ 
+    ___¶¶1¶¶¶_¶¶_______¶¶¶¶¶¶¶¶______¶¶¶¶¶¶¶¶¶¶__ 
+    ____¶¶¶¶____________¶¶¶¶¶¶___________¶¶¶¶____ 
+    ______¶¶¶__________¶¶¶__¶¶¶__________¶¶______ 
+    _______¶¶¶_________¶______¶_________¶¶¶______
+_SPLASH_
+}
+
+function showReadygo()
+{
+    cat <<_READYGO_
+    __                     _      _        
+    )_)   _   _   _ )       )    / _  _  | 
+    / \   )_) (_( (_(  (_(  o    (__/ (_) o 
+        (_              _)                 
+_READYGO_
+}
+
+
+function getYoN()
+{
+    local yesorno="X"
+    read -p "Enter Y or N: " yesorno
+    case "${yesorno,,}" in
+        y|yes|fine|ok|sure|okey|pos|positive)
+            echo -n "Y"
+            ;;
+        n|no|nay|not|neg|negative)
+            echo -n "N"
+            ;;
+        *)
+            echo -n "X"
+            ;;
+    esac    
+}
+
+function quitGame()
+{
+	echo "Are you sure to quit this game? "
+    local oldps3="$PS3"
+    PS3="Make your choice: "
+    local yorn='N'
+	select yorn in Y N
+	do
+		if [ "$yorn" = "Y" ]; then 
+            PS3="$oldps3"
+            exit 0; 
+        else
+            break
+        fi
+	done	
+}
+
+function doExercise()
+{
+    local yorn='N'
+    while $true; do
+        guessNumber
+        echo -n "Continue practicing? "
+        yorn=$(getYoN)
+        if [ "$yorn" == "N" ]; then
+            break
+        fi
+    done
+}
+
+function changeLevel()
+{
+    echo "--- About Difficulty Level ---"
+    echo "Level 1: guess a number between 1 to 100"
+    echo "Level 2: guess a number between 1 to 1000"
+    echo "Level 3: guess a number between 1 to 10000"
+    echo "=== Current Difficulty Level : $gDIFLEVEL ==="
+    local oldps3="$PS3"
+    PS3="Select a new difficulty level: "
+    select d in EASY INTERMEDIATE HARD; do
+        case "$REPLY" in
+            1) gDIFLEVEL=1; gDIFHIGH=100;
+                break
+                ;;
+            2) gDIFLEVEL=2; gDIFHIGH=1000;
+                break
+                ;;
+            3) gDIFLEVEL=3; gDIFHIGH=10000;
+                break
+                ;;
+            *) echo "You did't make your choice!"
+            ;;
+        esac
+    done
+    PS3="$oldps3"
+    echo "=== New Difficulty Level : $gDIFLEVEL ==="
+}
+
+
+# =BEGIN======= stage 2 functions ===========
+
+function createDatabase()
+{
+    echo "-------------------------------------------"
+    echo "loading data and initialize data structures"
+    if [[ ! -d "$gDBFOLDER"  ]]; then
+        echo "$gDBFOLDER folder not exist, creating it..."
+        mkdir ./data &>/dev/null
+        echo "$gDBFOLDER folder created."
+    fi
+    if [[ ! -f "$gREGIONDB" ]]; then
+        echo "$gREGIONDB not exist, creating it..."
+        touch "$gREGIONDB" &>/dev/null
+        echo "$gREGIONDB created."
+    fi
+    if [[ ! -f "$gNATIONDB" ]]; then
+        echo "$gNATIONDB not exist, creating it..."
+        touch "$gNATIONDB" &>/dev/null
+        echo "$gNATIONDB created."
+    fi
+    echo "-------------------------------------------"
+}
+
+function selectSeason()
+{
+    echo "Seasons for regional competition:"
+    local oldps3="$PS3"
+    PS3="Please select a season: "
+    select s in Spring Summer Fall; do
+        case "$REPLY" in
+            [1-3]) gSEASON=$s;
+                break
+                ;;
+            *) echo "You did't make your choice!" >&2
+            ;;
+        esac
+    done
+    PS3="$oldps3"
+    #echo $gSEASON
+}
+
+function selectRegion()
+{
+    echo "Available regions for competition:"
+    local oldps3="$PS3"
+    PS3="Please select a region: "
+    select s in SOUTH NORTHEAST MIDWEST WEST; do
+        case "$REPLY" in
+            [1-4]) gREGION=$s;
+                break
+                ;;
+            *) echo "You did't make your choice!" >&2
+            ;;
+        esac
+    done
+    PS3="$oldps3"
+    #echo $gREGION
+}
+
+function getGamerID()
+{
+    local reg9digits='^[0-9]{9}$'
+    while : ; do
+        read -p "Please enter your UNIQUE 9 digits gamer ID: " gGAMERID
+        if egrep "$reg9digits" <<<"$gGAMERID"  &>/dev/null ; then
+            break
+        else
+            echo "Your gamer ID ${gGAMERID} is NOT 9 digits!"
+        fi
+    done
+}
+
+function attendGame()
+{
+    echo "Welcome to the regional arena of guessing numbers!"
+
+    # enter 9 digits gamerid
+    getGamerID
+
+    # egrep the database to see how many times the gamer has attended
+    local timesplayed=$( egrep ^$gGAMERID $gREGIONDB | wc -l )
+    
+    # if new gamer
+    if [[ $timesplayed -eq 0 ]]; then 
+        selectRegion
+        selectSeason
+        # enter name
+        while : ; do
+            read -p "Please enter your name: " gGAMERNAME
+            if [[ ! "$gGAMERNAME" =~ ^[a-zA-Z]+$ ]]; then
+                echo "Your name can contain only letters!"
+            else
+                break
+            fi
+        done
+        # start competition
+        guessNumber
+        (( timesplayed++ ))
+        # save the result as csv record
+        echo "$gGAMERID,$gGAMERNAME,$gREGION,$gSEASON,$gDIFLEVEL,$gGUESSTIMES,$gTIMEELLAPSE,$gSCORE">>$gREGIONDB
+    elif [[ $timesplayed -lt 3 ]]; then # played 1 or 2 times
+        # load gamer's information
+        gGAMERNAME="$( egrep ^$gGAMERID $gREGIONDB | head -n 1 | cut -d ","  -f 2 )"
+        echo "Hello $gGAMERNAME, welcome back!"
+        echo "You have competed $timesplayed times in the regional arenas. You still can compete $(( 3-timesplayed )) times in the regional arenas."
+
+        selectRegion
+        selectSeason
+        # start competition
+        guessNumber
+        (( timesplayed++ ))
+        # save the result as csv record
+        echo "$gGAMERID,$gGAMERNAME,$gREGION,$gSEASON,$gDIFLEVEL,$gGUESSTIMES,$gTIMEELLAPSE,$gSCORE">>$gREGIONDB        
+    else # played 3 times
+        # load gamer's information
+        gGAMERNAME="$( egrep ^$gGAMERID $gREGIONDB | head -n 1 | cut -d ","  -f 2 )"
+        echo "Hello $gGAMERNAME, welcome back!"
+        echo "You have competed $timesplayed times in the regional arenas, please participate the national arena if you are qualified. "
+    fi
+}
+
+function showScore()
+{
+    # load gamer information
+    getGamerID
+    # egrep the database to see how many times the gamer has attended
+    local timesplayed=$( egrep "^$gGAMERID" "$gREGIONDB" | wc -l )
+    
+    # if new gamer
+    if [[ $timesplayed -eq 0 ]]; then 
+        echo -e "\nYou did NOT participate any regional arenas yet.\n Please participate regional arenas first.\n Good luck!\n"
+    else
+        gGAMERNAME="$( egrep ^$gGAMERID "$gREGIONDB" | head -n 1 | cut -d ","  -f 2 )"
+
+        echo -e "Hello $gGAMERNAME, here are your competitions\n"
+        echo "-----------------------------------------------------"
+        printf "%-10s %-8s %-8s %-5s %-8s %-8s\n" "Region" "Season" "Level" "Times" "Seconds" "Score" 
+        echo "-----------------------------------------------------"
+        # show all information
+        egrep "^$gGAMERID" "$gREGIONDB" | awk 'BEGIN {FS=",";} {printf("%-10s %-8s %-8d %-5d %-8d %8.2f\n", $3,$4,$5,$6,$7,$8 )}' | sort -r -n -k 6
+        echo "-----------------------------------------------------"
+    fi
+}
+
+function showPlace()
+{
+    # load gamer information
+    getGamerID
+    # egrep the database to see how many times the gamer has attended
+    local timesplayed=$( egrep "^$gGAMERID" "$gREGIONDB" | wc -l )
+    
+    # if new gamer
+    if [[ $timesplayed -eq 0 ]]; then 
+        echo -e "\nYou did NOT participate any regional arenas yet.\n Please participate regional arenas first.\n Good luck!\n"
+    else
+        local RED='\033[0;31m'
+        local BLACK='\033[0;30m'
+        local WHITE='\033[1;37m'
+
+        echo -e "=====${RED} regional competition results ${WHITE}======\n"
+        echo "--------------------------------------------------------------------------------"
+        printf "%-9s %-16s %-10s %-8s %-8s %-5s %-8s %-8s\n" "ID" "Name" "Region" "Season" "Level" "Times" "Seconds" "Score" 
+        echo "--------------------------------------------------------------------------------"
+        cat $gREGIONDB  | awk   'BEGIN {FS=",";} {printf("%-9s %-16s %-10s %-8s %-8d %-5d %-8d %-8.2f\n", $1, $2, $3,$4,$5,$6,$7,$8 )}' | sort -r -n -k 8 | awk -v gid=$gGAMERID -v red="$RED" -v black="$BLACK" -v white="$WHITE" '
+        # BEGIN{
+        #     print red gid white
+        # }
+        {
+            if($1 == gid)
+            {
+                printf("%s%-9s %-16s %-10s %-8s %-8d %-5d %-8d %8.2f%s\n", red, $1, $2, $3,$4,$5,$6,$7,$8, white)
+            }
+            else
+            {
+                printf("%-9s %-16s %-10s %-8s %-8d %-5d %-8d %8.2f\n", $1, $2, $3,$4,$5,$6,$7,$8)                
+            }
+
+        }'
+        echo "--------------------------------------------------------------------------------"
+    fi
+}
+
+
+# =END======= stage 2 functions ===========
+
+
+
+# =BEGIN===== stage 3 functions ===========
+function showRegionTop3()
+{
+    local region=$1
+    local RED='\033[0;31m'
+    local BLACK='\033[0;30m'
+    local WHITE='\033[1;37m'
+
+    echo -e "                   =====${RED} The Top 3 of region ${region} ${WHITE}======"
+    echo "--------------------------------------------------------------------------------"
+    printf "%-9s %-16s %-8s %-8s %-5s %-8s %8s\n" "ID" "Name" "Season" "Level" "Times" "Seconds" "Score" 
+    echo "--------------------------------------------------------------------------------"
+    egrep -i "\<$region\>" "$gREGIONDB"  | sort  -t ',' -rn -k 8,8 | awk -F, '!a[$1]++' | head -n 3 |  awk -F, -v red="$RED" -v black="$BLACK" -v white="$WHITE" '
+    # BEGIN{
+    #     print red gid black
+    # }
+    {
+        printf("%-9s %-16s %-8s %-8d %-5d %-8d %s%8.2f%s\n", $1, $2, $4,$5,$6,$7,red, $8, white)
+    }'
+    echo "--------------------------------------------------------------------------------"
+    echo    
+}
+
+# r - show regional top three
+function showTop3()
+{
+    selectRegion
+    showRegionTop3 "$gREGION"
+}
+
+# a - check my qualification of attending national arena
+function checkMe()
+{
+    # load gamer information
+    getGamerID
+    # egrep the database to see if I attended multiple regions
+    local numregions=$( egrep "^$gGAMERID" "$gREGIONDB" |  cut -d"," -f3 | sort | uniq | wc -l )
+    gGAMERNAME="$( egrep ^$gGAMERID $gREGIONDB | head -n 1 | cut -d ","  -f 2 )"
+
+    # if multiple region
+    if [[ $numregions -eq 0 ]]; then 
+        echo -e "\nYou did NOT participate any regional arenas yet.\n Please participate regional arenas first.\n Good luck!\n"
+    elif [[ $numregions -eq 1 ]]; then
+        gREGION=$(  egrep "^$gGAMERID" "$gREGIONDB" |  cut -d"," -f3 | sort | uniq  )
+        # check wether I am in the top 3
+        local intop3=$(egrep -i "\<$gREGION\>" "$gREGIONDB"  | sort   -t ',' -rn -k 8,8 | awk -F, '!a[$1]++' | head -n 3 | egrep ^$gGAMERID | wc -l )
+
+        if [[ $intop3 -eq 0 ]]; then
+            echo "Hello $gGAMERNAME, you are not in the top 3 of the $gREGION arena!"
+        else
+            # highlight me in the top 3
+            local RED='\033[0;31m'
+            local BLACK='\033[0;30m'
+            local WHITE='\033[1;37m'
+            echo "Congratulations! $gGAMERNAME, you are qualified to attend the national arena! "
+            echo -e "=====${RED} Your place in region ${gREGION} ${WHITE}======\n"
+            echo "--------------------------------------------------------------------------------"
+            printf "%-9s %-16s %-10s %-8s %-8s %-5s %-8s %-8s\n" "ID" "Name" "Region" "Season" "Level" "Times" "Seconds" "Score" 
+            echo "--------------------------------------------------------------------------------"
+            egrep -i "\<$gREGION\>" "$gREGIONDB"  | sort   -t ',' -rn -k 8,8 | awk -F, '!a[$1]++' | head -n 3  |  awk -F, -v gid=$gGAMERID -v red="$RED" -v black="$BLACK" -v white="$WHITE" '
+            # BEGIN{
+            #     print red gid black
+            # }
+            {
+                if($1 == gid)
+                {
+                    printf("%s%-9s %-16s %-10s %-8s %-8d %-5d %-8d %8.2f%s\n", red, $1, $2, $3,$4,$5,$6,$7,$8, white)
+                }
+                else
+                {
+                    printf("%-9s %-16s %-10s %-8s %-8d %-5d %-8d %8.2f\n", $1, $2, $3,$4,$5,$6,$7,$8)                
+                }
+            }'
+            echo "--------------------------------------------------------------------------------" 
+        fi       
+    else
+        echo -e "Dear $gGAMERNAME, You competed in $numregions regions so you are DISQUALIFIED! \n"
+        echo "Below are your records:"
+        echo "-----------------------------------------------------"
+        printf "%-10s %-8s %-8s %-5s %-8s %-8s\n" "Region" "Season" "Level" "Times" "Seconds" "Score" 
+        echo "-----------------------------------------------------"
+        # show all information
+        egrep "^$gGAMERID" "$gREGIONDB" | awk 'BEGIN {FS=",";} {printf("%-10s %-8s %-8d %-5d %-8d %8.2f\n", $3,$4,$5,$6,$7,$8 )}' | sort -r -n -k 6
+        echo "-----------------------------------------------------"
+    fi
+}
+
+# P - participate national competition
+function partiNation()
+{
+    # load gamer information
+    getGamerID
+    # egrep the database to see if I attended multiple regions
+    local numregions=$( egrep "^$gGAMERID" "$gREGIONDB" |  cut -d"," -f3 | sort | uniq | wc -l )
+    gGAMERNAME="$( egrep ^$gGAMERID $gREGIONDB | head -n 1 | cut -d ","  -f 2 )"
+
+    # if multiple region
+    if [[ $numregions -eq 0 ]]; then 
+        echo -e "\nYou did NOT participate any regional arenas yet.\n Please participate regional arenas first.\n Good luck!\n"
+    elif [[ $numregions -eq 1 ]]; then
+        gREGION=$(  egrep "^$gGAMERID" "$gREGIONDB" |  cut -d"," -f3 | sort | uniq  )
+        # Am I in the top 3 of my region?
+        local intop3=$(egrep -i "\<$gREGION\>" "$gREGIONDB"  | sort   -t ',' -rn -k 8,8 | awk -F, '!a[$1]++' | head -n 3 | egrep ^$gGAMERID | wc -l )
+
+        if [[ $intop3 -eq 1 ]]; then
+            # egrep the national database to see how many times the gamer has attended
+            local timesplayed=$( egrep ^$gGAMERID $gNATIONDB | wc -l )
+            
+            # if new gamer
+            if [[ $timesplayed -eq 0 ]]; then 
+                echo "Hello $gGAMERNAME, Welcome to the National arena of guessing numbers!"
+                gDIFLEVEL=3 # difficult level is fixed to be 3
+                gDIFHIGH=10000
+                # start competition
+                guessNumber
+                (( timesplayed++ ))
+                # save the result as csv record
+                echo "$gGAMERID,$gGAMERNAME,$gREGION,$gGUESSTIMES,$gTIMEELLAPSE,$gSCORE">>$gNATIONDB
+            elif [[ $timesplayed -eq 1 ]]; then # can only play once
+                echo "Hello $gGAMERNAME, you can play only ONCE in the national arena!"       
+            else # played more than 1 time
+                echo "Hello $gGAMERNAME, the database is corrupted or there are some logical error in the game!"
+                echo "Please contact the Administrator immediately!"
+            fi
+        else
+            echo "Hello $gGAMERNAME, you are not in the top 3 of the $gREGION arena!"
+        fi
+    else
+        echo -e "Dear $gGAMERNAME, you are DISQUALIFIED because you competed in $numregions regions! \n"
+        echo "Below are your records:"
+        echo "-----------------------------------------------------"
+        printf "%-10s %-8s %-8s %-5s %-8s %-8s\n" "Region" "Season" "Level" "Times" "Seconds" "Score" 
+        echo "-----------------------------------------------------"
+        # show all information
+        egrep "^$gGAMERID" "$gREGIONDB" | awk 'BEGIN {FS=",";} {printf("%-10s %-8s %-8d %-5d %-8d %8.2f\n", $3,$4,$5,$6,$7,$8 )}' | sort -r -n -k 6
+        echo "-----------------------------------------------------"
+    fi    
+}
+
+# n - show national competitors from each region
+function showNationalGamers()
+{
+    for r in SOUTH NORTHEAST MIDWEST WEST; do
+        showRegionTop3 "$r"
+    done
+}
+
+# w - print national winners
+function printWinners()
+{
+    local RED='\033[0;31m'
+    local BLACK='\033[0;30m'
+    local WHITE='\033[1;37m'
+
+    # 555555555,Pence,SOUTH,18,156,10.68376068376068376068
+    echo -e "**************${RED}National Winners${WHITE}*****************"
+    printf "%-10s %-10s %8s %-8s\n" "Name" "Region" "Score" "Medal"
+    sort -t ',' -r -n -k 6 "$gNATIONDB" | head -n 6 | 
+    awk -F, -v red="$RED" -v black="$BLACK" -v white="$WHITE"  '
+    BEGIN{
+        medals="Gold,Silver,Silver,Bronze,Bronze,Bronze"; split(medals,medal,",");
+    } 
+    {
+        if(NR % 2)
+            printf("%s%-10s %-10s %8.2f %-8s%s\n", red, $2, $3, $6, medal[NR],white );
+        else
+            printf("%-10s %-10s %8.2f %-8s\n", $2, $3, $6, medal[NR] );
+    }
+    '
+    echo "***********************************************"
+}
+
+# =END======= stage 3 functions ===========
+
+function guessNumber()
+{
+    showReadygo
+    echo "=== Current Difficulty Level : $gDIFLEVEL ==="
+    echo "guess a number between 1 to $gDIFHIGH "
+    local targetnum=$(($RANDOM % $gDIFHIGH + 1))
+    local num=1
+    local times=0
+    local start=$SECONDS
+    local end=$start
+    echo
+    until [ $num -eq $targetnum ]; do
+        ((times++))
+        read -p "Your guess: " num
+        if [ $num -gt $targetnum ]; then
+            echo "too large"
+        else
+            echo "too small"
+        fi
+    done
+    end=$SECONDS
+    local elapse=$(($end - $start))
+    gGUESSTIMES=$times
+    gTIMEELLAPSE=$elapse
+    gSCORE=$(echo  "$gDIFLEVEL*10000/$times/$elapse" | bc -l)
+    echo "Congratulation! You get it!"
+    echo "You used $elapse seconds, tried $times times, scored $gSCORE"
+}
+
+# show splash windows and help once at the beginning
+showSplash
+createDatabase
+showHelp
+
+# program main logic
+while $true; do
+    echo ""
+    read -p 'Enter your command: ' cmd
+    case "$cmd" in
+        "h") # h - help, show this command list
+        showHelp
+        ;;
+        "q") # q - quit the game
+        quitGame
+        ;;        
+        "e") # e - do exercise by oneself
+        doExercise
+        ;;
+        "c") # c - change game difficulty level
+        changeLevel
+        ;;
+        "s") # s - show my score in descending order
+        showScore
+        ;;
+        "p") # p - participate competition
+        attendGame
+        ;;
+        "l") # l - show my place in all gamers
+        showPlace
+        ;;
+        "r") # r - show regional top three in descending order
+        showTop3
+        ;;
+        "a") # a - check my qualification of attending national arena
+        checkMe
+        ;;
+        "n") # n - show national competitors
+        showNationalGamers
+        ;;
+        "P") # P - participate national competition
+        partiNation
+        ;;
+        "w") # w - print national winners
+        printWinners
+        ;;
+        *) # unsupported commands
+        echo "unsupported command"
+        ;;
+    esac
+done

@@ -1,0 +1,208 @@
+#!/bin/bash
+
+# global variables
+gDIFLEVEL=1
+gDIFLOW=1
+gDIFHIGH=100
+gGUESSTIMES=0
+gTIMEELLAPSE=0
+gSCORE=0
+
+# functions
+function showHelp()
+{
+    cat <<_help_
+    Usage: use single letter command to play the game
+    h - help, show this command list
+    e - do exercise by oneself
+    c - change game difficulty level
+    q - quit the game
+    p - participate competition
+    s - show my score in descending order
+    l - show my place in all gamers
+_help_
+}
+
+function showSplash()
+{
+    cat <<_SPLASH_
+    _________¶¶¶111¶¶___________¶¶111¶¶¶¶________ 
+    ______¶¶¶¶1111¶¶¶____________¶¶¶1111¶¶¶1_____ 
+    _____¶¶¶1111¶¶¶¶_____________¶¶¶¶11111¶¶¶____ 
+    ___¶¶¶11¶1¶1¶¶¶¶___¶¶____¶¶__¶¶¶¶¶1¶1¶1¶¶¶1__ 
+    __¶¶¶11¶1¶11¶¶¶¶¶__¶¶¶¶¶¶¶¶__¶¶¶¶¶1¶1¶¶11¶¶1_ 
+    _¶¶¶11¶¶1¶11¶¶¶¶¶¶__¶¶¶¶¶¶_¶¶¶¶¶¶¶1¶¶1¶¶1¶¶¶_ 
+    ¶¶¶¶1¶¶11¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶1¶¶¶1¶¶¶ 
+    ████ █┼█ ███ ███ ███ ┼┼ █┼┼█ █┼█ █▄┼▄█ ██▄ ███ ███
+    █┼▄▄ █┼█ █▄┼ █▄▄ █▄▄ ┼┼ ██▄█ █┼█ █┼█┼█ █▄█ █▄┼ █▄┼
+    █▄▄█ ███ █▄▄ ▄▄█ ▄▄█ ┼┼ █┼██ ███ █┼┼┼█ █▄█ █▄▄ █┼█
+    _¶¶¶1¶¶¶¶1¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶1¶¶¶¶1¶¶1 
+    __¶¶1¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶__¶¶¶¶¶¶¶¶1¶¶¶_ 
+    ___¶¶1¶¶¶_¶¶_______¶¶¶¶¶¶¶¶______¶¶¶¶¶¶¶¶¶¶__ 
+    ____¶¶¶¶____________¶¶¶¶¶¶___________¶¶¶¶____ 
+    ______¶¶¶__________¶¶¶__¶¶¶__________¶¶______ 
+    _______¶¶¶_________¶______¶_________¶¶¶______
+_SPLASH_
+}
+
+function showReadygo()
+{
+    cat <<_READYGO_
+    __                     _      _        
+    )_)   _   _   _ )       )    / _  _  | 
+    / \   )_) (_( (_(  (_(  o    (__/ (_) o 
+        (_              _)                 
+_READYGO_
+}
+
+
+function getYoN()
+{
+    local yesorno="X"
+    read -p "Enter Y or N: " yesorno
+    case "${yesorno,,}" in
+        y|yes|fine|ok|sure|okey|pos|positive)
+            echo -n "Y"
+            ;;
+        n|no|nay|not|neg|negative)
+            echo -n "N"
+            ;;
+        *)
+            echo -n "X"
+            ;;
+    esac    
+}
+
+function quitGame()
+{
+	echo "Are you sure to quit this game? "
+    local oldps3="$PS3"
+    PS3="Make your choice: "
+    local yorn='N'
+	select yorn in Y N
+	do
+		if [ "$yorn" = "Y" ]; then 
+            PS3="$oldps3"
+            exit 0; 
+        fi
+	done	
+}
+
+function doExercise()
+{
+    local yorn='N'
+    while $true; do
+        guessNumber
+        echo -n "Continue practicing? "
+        yorn=$(getYoN)
+        if [ "$yorn" == "N" ]; then
+            break
+        fi
+    done
+}
+
+function changeLevel()
+{
+    echo "--- About Difficulty Level ---"
+    echo "Level 1: guess a number between 1 to 100"
+    echo "Level 2: guess a number between 1 to 1000"
+    echo "Level 3: guess a number between 1 to 10000"
+    echo "=== Current Difficulty Level : $gDIFLEVEL ==="
+    local oldps3="$PS3"
+    PS3="Select a new difficulty level: "
+    select d in EASY INTERMEDIATE HARD; do
+        case "$REPLY" in
+            1) gDIFLEVEL=1; gDIFHIGH=100;
+                break
+                ;;
+            2) gDIFLEVEL=2; gDIFHIGH=1000;
+                break
+                ;;
+            3) gDIFLEVEL=3; gDIFHIGH=10000;
+                break
+                ;;
+            *) echo "You did't make your choice!"
+            ;;
+        esac
+    done
+    PS3="$oldps3"
+    echo "=== New Difficulty Level : $gDIFLEVEL ==="
+}
+
+function showScore()
+{
+    echo "to do showScore..."
+}
+
+function attendGame()
+{
+    echo "to do attendGame..."
+}
+
+function showPlace()
+{
+    echo "to do showPlace..."
+}
+
+
+function guessNumber()
+{
+    showReadygo
+    echo "=== Current Difficulty Level : $gDIFLEVEL ==="
+    echo "guess a number between 1 to $gDIFHIGH "
+    local targetnum=$(($RANDOM % $gDIFHIGH + 1))
+    local num=1
+    local times=0
+    local start=$SECONDS
+    local end=$start
+    echo
+    until [ $num -eq $targetnum ]; do
+        ((times++))
+        read -p "Your guess: " num
+        if [ $num -gt $targetnum ]; then
+            echo "too large"
+        else
+            echo "too small"
+        fi
+    done
+    end=$SECONDS
+    local elapse=$(($end - $start))
+    gSCORE=$(echo  "$gDIFLEVEL*10000/$times/$elapse" | bc -l)
+    echo "Congratulation! You get it!"
+    echo "You used $elapse seconds, tried $times times, scored $gSCORE"
+}
+
+# show splash windows and help once at the beginning
+showSplash
+showHelp
+# program main logic
+while $true; do
+    echo ""
+    read -p 'Enter your command: ' cmd
+    case "$cmd" in
+        "h") # h - help, show this command list
+        showHelp
+        ;;
+        "q") # q - quit the game
+        quitGame
+        ;;        
+        "e") # e - do exercise by oneself
+        doExercise
+        ;;
+        "c") # c - change game difficulty level
+        changeLevel
+        ;;
+        "s") # s - show my score in descending order
+        showScore
+        ;;
+        "p") # p - participate competition
+        attendGame
+        ;;
+        "l") # l - show my place in all gamers
+        showPlace
+        ;;
+        *) # unsupported commands
+        echo "unsupported command"
+        ;;
+    esac
+done
